@@ -482,6 +482,7 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
               <option value="365">最近一年</option>
               <option value="all">全部记录</option>
             </select>
+            <button class="ai-gear" onclick="clearChat()" title="清空对话">🗑</button>
             <button class="ai-gear" onclick="openAiCfg()" title="API 设置">⚙️</button>
           </div>
         </div>
@@ -1319,10 +1320,21 @@ let SKILLS = JSON.parse(localStorage.getItem(SKILLS_KEY) || 'null') || [
   {name:'向我提三个问题', prompt:'读完我的记录后，向我提出三个尖锐的问题。这些问题应该指向我可能在回避、自相矛盾、或没有意识到的地方。只提问，不要给答案。'},
   {name:'找出我的借口', prompt:'挑出我记录里所有自我合理化、找借口、把责任推给外部环境的句子，逐条引用并指出更诚实的说法是什么。请直接，不用客气。'},
 ];
+const CHAT_KEY = 'tearoff-chat';
+const CHAT_EMPTY_HTML = `<div class="chat-empty" id="chat-empty">
+    把日记当成可以对话的外部大脑 🧠<br>它记得你早就忘了的事
+    <div class="hint-chips">
+      <span onclick="quickAsk('这个月我主要在忙什么？做对了什么？')">这个月我在忙什么</span>
+      <span onclick="quickAsk('我的记录里有没有反复出现却一直没解决的问题？')">找出重复的问题</span>
+      <span onclick="quickAsk('根据我的记录，给我提三个尖锐的问题。')">向我提三个问题</span>
+    </div>
+  </div>`;
 let chatHistory = [];   // [{role,content}]
 let aiBusy = false;
+try { chatHistory = JSON.parse(localStorage.getItem(CHAT_KEY) || '[]'); } catch(_) { chatHistory = []; }
 
 function persistSkills(){ localStorage.setItem(SKILLS_KEY, JSON.stringify(SKILLS)); }
+function persistChat(){ try{ localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory.slice(-50))); }catch(_){} }
 function openAiCfg(){
   if(AICFG){ document.getElementById('ai-key-input').value = AICFG.key; document.getElementById('ai-model-input').value = AICFG.model; }
   document.getElementById('ai-cfg-modal').classList.add('show');
@@ -1348,8 +1360,8 @@ async function saveAiCfg(){
 }
 
 /* —— 组装日记上下文（控制体积，最多约 24k 字符） —— */
-function buildDiaryContext(){
-  const scope = document.getElementById('ai-scope').value;
+function buildDiaryContext(scope){
+  scope = scope || document.getElementById('ai-scope').value;
   const cutoff = scope==='all' ? 0 : Date.now() - (+scope)*864e5;
   const keys = Object.keys(DB).sort().filter(k => new Date(k).getTime() >= cutoff);
   if(!keys.length) return null;
@@ -1380,6 +1392,15 @@ function appendMsg(role, text){
   return div;
 }
 function quickAsk(q){ document.getElementById('chat-input').value = q; sendChat(); }
+function renderChat(){
+  if(!chatHistory.length) return;
+  chatHistory.forEach(m=> appendMsg(m.role==='user'?'user':'ai', m.content));
+}
+function clearChat(){
+  if(chatHistory.length && !confirm('清空这段对话？日记数据不受影响。')) return;
+  chatHistory = []; localStorage.removeItem(CHAT_KEY);
+  document.getElementById('chat-body').innerHTML = CHAT_EMPTY_HTML;
+}
 
 async function sendChat(presetPrompt){
   if(aiBusy) return;
@@ -1387,8 +1408,14 @@ async function sendChat(presetPrompt){
   const input = document.getElementById('chat-input');
   const q = presetPrompt || input.value.trim();
   if(!q) return;
-  const ctx = buildDiaryContext();
-  if(!ctx){ toast('所选范围内还没有日记，先去写几篇吧 ✍️'); return; }
+  let ctx = buildDiaryContext();
+  let fellBack = false;
+  if(!ctx){ ctx = buildDiaryContext('all'); fellBack = true; }   // 所选范围没内容就自动放宽到全部
+  if(!ctx){
+    appendMsg('ai','所选范围甚至全部记录里都还没有日记，先去写几篇吧 ✍️（翻到正面，写几条「收获 / 待改进」）');
+    return;
+  }
+  if(fellBack) appendMsg('ai','ℹ️ 所选范围内没有日记，已自动用「全部记录」来分析。');
   if(!presetPrompt) input.value = '';
   appendMsg('user', q);
   const aiDiv = appendMsg('ai',''); aiDiv.classList.add('thinking');
@@ -1440,6 +1467,7 @@ async function sendChat(presetPrompt){
     chatHistory.pop();
   }finally{
     aiBusy = false; document.getElementById('chat-send').disabled = false;
+    persistChat();
   }
 }
 document.getElementById('chat-input').addEventListener('keydown', e=>{
@@ -1473,6 +1501,7 @@ function delSkill(i){
 }
 
 /* ==================== 启动 ==================== */
+renderChat();          // 把上次保存的对话恢复出来（刷新不再丢失）
 renderSkills();
 if(AICFG) document.getElementById('ai-model-tag').textContent = AICFG.model;
 refreshSyncBtn();
