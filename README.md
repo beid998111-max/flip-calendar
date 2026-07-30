@@ -32,10 +32,25 @@ cd flip-calendar
 python3 -m http.server 8080
 ```
 
-## 跨设备同步
+## 跨设备同步（GitHub Gist）
 
-数据保存在浏览器 localStorage 中，**不会跨设备自动同步**。
-在两台电脑间迁移数据：在 A 电脑点「导出」下载 JSON → 在 B 电脑点「导入」即可。
+点击右上角「云同步」，用你自己的 GitHub 私密 Gist 作为数据库，两台电脑自动同步。
+
+**第一台电脑**
+1. [创建一个 token](https://github.com/settings/tokens/new?scopes=gist&description=撕历云同步)，**只勾选 `gist` 权限**，有效期选 No expiration
+2. 粘贴 token，Gist ID 留空 → 自动创建云端仓库
+3. 记下面板里显示的 Gist ID
+
+**第二台电脑**：填入**同一个 token** + 上一步的 **Gist ID**，数据自动接上。
+
+**同步机制**
+- 保存记录后 1.5 秒自动上传；打开页面自动拉取
+- 冲突处理：逐条比对时间戳，**新的覆盖旧的，两边独有的都保留**，不会丢数据
+- 手写图按月分片存储并降采样至 620px，规避 Gist 单文件 1MB 限制
+
+**成本**：全部免费。GitHub Pages 免费额度为 1GB 存储 / 100GB 月流量，Gist 私密不限量，一年纯文本记录约 144KB。
+
+**安全**：token 仅存于本机浏览器 localStorage，不经过任何第三方服务器。因只授予 `gist` 权限，即便泄露也无法操作你的代码仓库。
 
 ## 技术
 
