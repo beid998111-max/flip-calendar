@@ -1088,7 +1088,7 @@ function packData(){
     main[k] = {note:e.note||'', right:e.right||'', wrong:e.wrong||'', tags:e.tags||[], ts:e.ts||0, hasHw:!!e.hw};
     if(e.hw){ const m = k.slice(0,7); (hwByMonth[m] = hwByMonth[m]||{})[k] = e.hw; }
   });
-  files[GIST_MAIN] = {content: JSON.stringify({v:1, updated:Date.now(), entries:main}, null, 1)};
+  files[GIST_MAIN] = {content: JSON.stringify({v:1, updated:Date.now(), entries:main, chat: chatHistory}, null, 1)};
   Object.entries(hwByMonth).forEach(([m,obj])=>{
     files[`tearoff-hw-${m}.json`] = {content: JSON.stringify(obj)};
   });
@@ -1097,16 +1097,18 @@ function packData(){
 function unpackData(gistFiles){
   const out = {};
   const mainFile = gistFiles[GIST_MAIN];
+  let chat = [];
   if(mainFile && mainFile.content){
     const parsed = JSON.parse(mainFile.content);
     Object.entries(parsed.entries||{}).forEach(([k,e])=> out[k] = {...e});
+    chat = parsed.chat || [];
   }
   Object.entries(gistFiles).forEach(([name,f])=>{
     if(name.startsWith('tearoff-hw-') && f.content){
       try{ Object.entries(JSON.parse(f.content)).forEach(([k,hw])=>{ if(out[k]) out[k].hw = hw; }); }catch{}
     }
   });
-  return out;
+  return {db: out, chat};
 }
 /* —— 合并：逐条比对，同日冲突无损保留，绝不静默丢内容 —— */
 function sameContent(a,b){
@@ -1142,6 +1144,16 @@ function mergeDB(local, remote){
   });
   return {merged, added, updated, conflicts};
 }
+/* —— 合并聊天：以较长者为底，补入另一方独有的消息（按 role+content 去重，保留顺序） —— */
+function mergeChat(local, remote){
+  local = local || []; remote = remote || [];
+  if(!local.length) return remote.slice();
+  if(!remote.length) return local.slice();
+  const [base, other] = local.length >= remote.length ? [local, remote] : [remote, local];
+  const seen = new Set(base.map(m=>m.role+'\u0001'+m.content));
+  const extra = other.filter(m=>!seen.has(m.role+'\u0001'+m.content));
+  return base.concat(extra);
+}
 
 let syncing = false, pushTimer = null;
 function refreshSyncBtn(state){
@@ -1165,9 +1177,15 @@ async function doPull(silent, inner){
       try{ f.content = await fetch(f.raw_url).then(r=>r.text()); }catch{}
     }
   }
-  const remote = unpackData(g.files||{});
-  const {merged, added, updated, conflicts} = mergeDB(DB, remote);
+  const {db: remoteDb, chat: remoteChat} = unpackData(g.files||{});
+  const {merged, added, updated, conflicts} = mergeDB(DB, remoteDb);
   DB = merged; persist();
+  // 同步聊天记录：合并云端与本机，变化了就更新本地并刷新对话区
+  const mergedChat = mergeChat(chatHistory, remoteChat);
+  if(mergedChat.length!==chatHistory.length || JSON.stringify(mergedChat)!==JSON.stringify(chatHistory)){
+    chatHistory = mergedChat; persistChat();
+    if(!aiBusy) renderChat();
+  }
   CFG.lastSync = Date.now(); saveCfg();
   if(!inner) renderDay();
   if(conflicts) markPending();   // 冲突合并后的结果需要回传云端
@@ -1393,7 +1411,10 @@ function appendMsg(role, text){
 }
 function quickAsk(q){ document.getElementById('chat-input').value = q; sendChat(); }
 function renderChat(){
-  if(!chatHistory.length) return;
+  const body = document.getElementById('chat-body');
+  if(!body) return;
+  body.innerHTML = '';
+  if(!chatHistory.length){ body.innerHTML = CHAT_EMPTY_HTML; return; }
   chatHistory.forEach(m=> appendMsg(m.role==='user'?'user':'ai', m.content));
 }
 function clearChat(){
