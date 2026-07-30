@@ -266,6 +266,54 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 .tip-box{background:rgba(126,200,227,.08);border:1px solid rgba(126,200,227,.25);border-radius:10px;padding:12px 14px;font-size:.8rem;line-height:1.8;color:#b8c6d9;margin-bottom:16px;}
 .tip-box b{color:var(--accent2);}
 
+/* ======= AI 视图 ======= */
+#view-ai .ai-layout{display:grid;grid-template-columns:230px 1fr;gap:14px;min-height:560px;}
+@media(max-width:760px){#view-ai .ai-layout{grid-template-columns:1fr;min-height:auto;}}
+.skill-side{display:flex;flex-direction:column;gap:8px;}
+.skill-side h4{font-size:.82rem;color:var(--muted);letter-spacing:1px;margin:4px 0 2px;}
+.skill-card{
+  background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:11px;
+  padding:11px 13px;cursor:pointer;transition:.2s;position:relative;
+}
+.skill-card:hover{border-color:var(--accent);background:rgba(232,176,75,.06);}
+.skill-card .sk-name{font-size:.88rem;font-weight:600;}
+.skill-card .sk-desc{font-size:.74rem;color:var(--muted);margin-top:3px;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.skill-card .sk-del{position:absolute;top:8px;right:9px;color:var(--muted);font-size:.8rem;display:none;background:none;border:none;cursor:pointer;}
+.skill-card:hover .sk-del{display:block;}
+.skill-card .sk-del:hover{color:var(--danger);}
+.skill-add{border:1px dashed rgba(255,255,255,.2);background:transparent;color:var(--muted);
+  border-radius:11px;padding:10px;font-size:.82rem;cursor:pointer;font-family:inherit;transition:.2s;}
+.skill-add:hover{color:var(--accent);border-color:var(--accent);}
+.chat-panel{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);
+  display:flex;flex-direction:column;overflow:hidden;}
+.chat-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,.06);}
+.chat-head .ch-t{font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:8px;}
+.chat-head .scope-sel{background:rgba(0,0,0,.3);color:var(--text);border:1px solid rgba(255,255,255,.12);
+  border-radius:7px;padding:5px 9px;font-size:.78rem;outline:none;font-family:inherit;cursor:pointer;}
+.chat-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;min-height:340px;max-height:56vh;}
+.msg{max-width:88%;line-height:1.75;font-size:.9rem;white-space:pre-wrap;word-break:break-word;}
+.msg.user{align-self:flex-end;background:var(--accent);color:#1a1408;border-radius:14px 14px 3px 14px;padding:10px 15px;}
+.msg.ai{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+  border-radius:14px 14px 14px 3px;padding:12px 16px;}
+.msg.ai.thinking::after{content:"▌";animation:blink .8s infinite;color:var(--accent);}
+.msg .m-meta{font-size:.7rem;color:var(--muted);margin-top:8px;}
+.chat-empty{color:var(--muted);font-size:.88rem;text-align:center;margin:auto;line-height:2.2;}
+.chat-empty .hint-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+.chat-empty .hint-chips span{border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:6px 14px;
+  font-size:.8rem;cursor:pointer;transition:.2s;}
+.chat-empty .hint-chips span:hover{border-color:var(--accent);color:var(--accent);}
+.chat-foot{display:flex;gap:9px;padding:13px 16px;border-top:1px solid rgba(255,255,255,.06);}
+.chat-foot textarea{flex:1;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:11px;
+  padding:11px 14px;color:var(--text);font-size:.9rem;outline:none;font-family:inherit;resize:none;height:46px;line-height:1.5;}
+.chat-foot textarea:focus{border-color:var(--accent);}
+.chat-foot button{border:none;background:var(--accent);color:#1a1408;border-radius:11px;padding:0 20px;
+  font-size:.92rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;}
+.chat-foot button:disabled{opacity:.4;cursor:not-allowed;}
+.ai-gear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px;}
+.ai-gear:hover{color:var(--text);}
+
 /* toast */
 #toast{
   position:fixed;bottom:34px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -310,6 +358,7 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     <button class="active" data-view="calendar">📅 日历</button>
     <button data-view="graph">✨ 星图</button>
     <button data-view="review">📊 复盘</button>
+    <button data-view="ai">🤖 问我</button>
   </nav>
   <div class="tools">
     <button class="sync-btn" id="sync-btn" onclick="openSync()"><span class="sdot"></span><span id="sync-label">云同步</span></button>
@@ -409,7 +458,73 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     </div>
     <div id="review-body"></div>
   </section>
+
+  <!-- ============ AI 问我 ============ -->
+  <section class="view" id="view-ai">
+    <div class="ai-layout">
+      <div class="skill-side">
+        <h4>🎯 我的技能</h4>
+        <div id="skill-list"></div>
+        <button class="skill-add" onclick="addSkill()">＋ 自定义一个技能</button>
+        <h4 style="margin-top:10px;">💡 说明</h4>
+        <p style="font-size:.74rem;color:var(--muted);line-height:1.8;">
+          技能 = 你保存的分析指令，点一下就对你的日记执行。<br>
+          对话会把所选范围的日记作为背景发给通义千问（qwen-plus）分析。
+        </p>
+      </div>
+      <div class="chat-panel">
+        <div class="chat-head">
+          <div class="ch-t">🤖 向你的日记提问 <span id="ai-model-tag" style="font-size:.7rem;color:var(--muted);font-weight:400;">qwen-plus</span></div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select class="scope-sel" id="ai-scope">
+              <option value="30">最近 30 天</option>
+              <option value="90">最近 3 个月</option>
+              <option value="365">最近一年</option>
+              <option value="all">全部记录</option>
+            </select>
+            <button class="ai-gear" onclick="openAiCfg()" title="API 设置">⚙️</button>
+          </div>
+        </div>
+        <div class="chat-body" id="chat-body">
+          <div class="chat-empty" id="chat-empty">
+            把日记当成可以对话的外部大脑 🧠<br>它记得你早就忘了的事
+            <div class="hint-chips">
+              <span onclick="quickAsk('这个月我主要在忙什么？做对了什么？')">这个月我在忙什么</span>
+              <span onclick="quickAsk('我的记录里有没有反复出现却一直没解决的问题？')">找出重复的问题</span>
+              <span onclick="quickAsk('根据我的记录，给我提三个尖锐的问题。')">向我提三个问题</span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-foot">
+          <textarea id="chat-input" placeholder="问点什么…（Enter 发送，Shift+Enter 换行）"></textarea>
+          <button id="chat-send" onclick="sendChat()">发送</button>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<!-- ============ AI 设置弹窗 ============ -->
+<div class="modal-mask" id="ai-cfg-modal" onclick="if(event.target===this) this.classList.remove('show')">
+  <div class="modal">
+    <h2>⚙️ AI 设置</h2>
+    <div class="sub">接入阿里云百炼（通义千问）。Key 只保存在你这台设备的浏览器里，<b style="color:var(--accent)">不会出现在网页代码中</b>，其他人拿到网址也用不了你的额度。</div>
+    <div class="step" data-n="1">
+      <h4>API Key</h4>
+      <p>在 <a href="https://bailian.console.aliyun.com/?apiKey=1" target="_blank" style="color:var(--accent2)">百炼控制台 → API-KEY</a> 创建或查看：</p>
+      <input type="password" id="ai-key-input" placeholder="sk-xxxxxxxx" autocomplete="off">
+    </div>
+    <div class="step" data-n="2" style="border-color:transparent;">
+      <h4>模型</h4>
+      <p style="margin-bottom:6px;">默认 <code>qwen-plus</code>（能力/价格均衡，一次月度分析约几分钱）。</p>
+      <input type="text" id="ai-model-input" placeholder="qwen-plus" value="qwen-plus">
+    </div>
+    <div class="modal-foot">
+      <button class="bt-ghost" onclick="document.getElementById('ai-cfg-modal').classList.remove('show')">取消</button>
+      <button class="bt-primary" onclick="saveAiCfg()">测试并保存</button>
+    </div>
+  </div>
+</div>
 
 <!-- ============ 同步弹窗 ============ -->
 <div class="modal-mask" id="sync-modal" onclick="if(event.target===this) closeSync()">
@@ -1195,7 +1310,171 @@ function copyGistId(){
     .catch(()=>toast('复制失败，请手动选中'));
 }
 
+/* ==================== AI（阿里云百炼 · 通义千问） ==================== */
+const AI_CFG_KEY = 'tearoff-ai-cfg';
+const SKILLS_KEY = 'tearoff-skills';
+let AICFG = JSON.parse(localStorage.getItem(AI_CFG_KEY) || 'null');   // {key, model}
+let SKILLS = JSON.parse(localStorage.getItem(SKILLS_KEY) || 'null') || [
+  {name:'月度深度复盘', prompt:'请对我这段时间的记录做深度复盘：1) 我的精力主要花在哪几类事情上；2) 有哪些反复出现但没解决的问题；3) 我做对了什么值得固化成习惯；4) 给我一条最重要的建议。要具体，引用我的原句，不要空话。'},
+  {name:'向我提三个问题', prompt:'读完我的记录后，向我提出三个尖锐的问题。这些问题应该指向我可能在回避、自相矛盾、或没有意识到的地方。只提问，不要给答案。'},
+  {name:'找出我的借口', prompt:'挑出我记录里所有自我合理化、找借口、把责任推给外部环境的句子，逐条引用并指出更诚实的说法是什么。请直接，不用客气。'},
+];
+let chatHistory = [];   // [{role,content}]
+let aiBusy = false;
+
+function persistSkills(){ localStorage.setItem(SKILLS_KEY, JSON.stringify(SKILLS)); }
+function openAiCfg(){
+  if(AICFG){ document.getElementById('ai-key-input').value = AICFG.key; document.getElementById('ai-model-input').value = AICFG.model; }
+  document.getElementById('ai-cfg-modal').classList.add('show');
+}
+async function saveAiCfg(){
+  const key = document.getElementById('ai-key-input').value.trim();
+  const model = document.getElementById('ai-model-input').value.trim() || 'qwen-plus';
+  if(!key){ toast('请先填入 API Key'); return; }
+  toast('正在测试连接…');
+  try{
+    const r = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',{
+      method:'POST',
+      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+      body: JSON.stringify({model, messages:[{role:'user',content:'ping'}], max_tokens:5})
+    });
+    if(!r.ok){ const t = await r.json().catch(()=>({})); throw new Error(t.error?.message || 'HTTP '+r.status); }
+    AICFG = {key, model};
+    localStorage.setItem(AI_CFG_KEY, JSON.stringify(AICFG));
+    document.getElementById('ai-model-tag').textContent = model;
+    document.getElementById('ai-cfg-modal').classList.remove('show');
+    toast('✅ 连接成功，AI 已就绪');
+  }catch(e){ toast('连接失败：'+e.message); }
+}
+
+/* —— 组装日记上下文（控制体积，最多约 24k 字符） —— */
+function buildDiaryContext(){
+  const scope = document.getElementById('ai-scope').value;
+  const cutoff = scope==='all' ? 0 : Date.now() - (+scope)*864e5;
+  const keys = Object.keys(DB).sort().filter(k => new Date(k).getTime() >= cutoff);
+  if(!keys.length) return null;
+  let out = [], size = 0;
+  for(let i=keys.length-1; i>=0; i--){   // 从最近往回装
+    const k = keys[i], e = DB[k];
+    let block = `【${k}】`;
+    if(e.note) block += `\n收获：${e.note}`;
+    if(e.right) block += `\n做对：${e.right}`;
+    if(e.wrong) block += `\n待改进：${e.wrong}`;
+    if(e.tags?.length) block += `\n标签：${e.tags.join('、')}`;
+    if(!e.note && !e.right && !e.wrong && e.hw) block += `\n（当天为手写记录，无文本）`;
+    size += block.length;
+    if(size > 24000){ out.push(`（更早的 ${i+1} 天记录因篇幅省略）`); break; }
+    out.push(block);
+  }
+  return {text: out.reverse().join('\n\n'), days: keys.length};
+}
+
+function appendMsg(role, text){
+  document.getElementById('chat-empty')?.remove();
+  const body = document.getElementById('chat-body');
+  const div = document.createElement('div');
+  div.className = 'msg '+role;
+  div.textContent = text;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+  return div;
+}
+function quickAsk(q){ document.getElementById('chat-input').value = q; sendChat(); }
+
+async function sendChat(presetPrompt){
+  if(aiBusy) return;
+  if(!AICFG){ openAiCfg(); toast('先填一下 API Key（只存本机）'); return; }
+  const input = document.getElementById('chat-input');
+  const q = presetPrompt || input.value.trim();
+  if(!q) return;
+  const ctx = buildDiaryContext();
+  if(!ctx){ toast('所选范围内还没有日记，先去写几篇吧 ✍️'); return; }
+  if(!presetPrompt) input.value = '';
+  appendMsg('user', q);
+  const aiDiv = appendMsg('ai',''); aiDiv.classList.add('thinking');
+  aiBusy = true; document.getElementById('chat-send').disabled = true;
+
+  const system = `你是用户的私人成长教练，也是他的"外部记忆"。下面是他的翻页日历日记（${ctx.days} 天）。回答规则：
+1. 只依据日记内容，引用时标注日期；日记里没有的信息就明说"记录里没有"
+2. 像了解他多年的朋友一样直接，避免奉承和空泛的鸡汤
+3. 中文回答，简洁分点，可读性优先\n\n=== 日记开始 ===\n${ctx.text}\n=== 日记结束 ===`;
+
+  chatHistory.push({role:'user', content:q});
+  const messages = [{role:'system', content:system}, ...chatHistory.slice(-8)];
+  try{
+    const r = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',{
+      method:'POST',
+      headers:{'Authorization':'Bearer '+AICFG.key,'Content-Type':'application/json'},
+      body: JSON.stringify({model:AICFG.model, messages, stream:true})
+    });
+    if(!r.ok){ const t = await r.json().catch(()=>({})); throw new Error(t.error?.message || 'HTTP '+r.status); }
+    // 流式输出
+    const reader = r.body.getReader(); const dec = new TextDecoder();
+    let full = '', buf = '';
+    aiDiv.classList.remove('thinking');
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      buf += dec.decode(value, {stream:true});
+      const lines = buf.split('\n'); buf = lines.pop();
+      for(const line of lines){
+        const s = line.trim();
+        if(!s.startsWith('data:')) continue;
+        const payload = s.slice(5).trim();
+        if(payload === '[DONE]') continue;
+        try{
+          const delta = JSON.parse(payload).choices?.[0]?.delta?.content || '';
+          if(delta){ full += delta; aiDiv.textContent = full;
+            document.getElementById('chat-body').scrollTop = 1e9; }
+        }catch{}
+      }
+    }
+    chatHistory.push({role:'assistant', content:full});
+    const meta = document.createElement('div');
+    meta.className = 'm-meta';
+    meta.textContent = `${AICFG.model} · 基于 ${ctx.days} 天记录`;
+    aiDiv.appendChild(meta);
+  }catch(e){
+    aiDiv.classList.remove('thinking');
+    aiDiv.textContent = '出错了：'+e.message+'\n（检查 Key 是否有效、账户是否有余额）';
+    chatHistory.pop();
+  }finally{
+    aiBusy = false; document.getElementById('chat-send').disabled = false;
+  }
+}
+document.getElementById('chat-input').addEventListener('keydown', e=>{
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChat(); }
+});
+
+/* —— 自定义技能 —— */
+function renderSkills(){
+  const list = document.getElementById('skill-list');
+  list.innerHTML = '';
+  SKILLS.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className = 'skill-card';
+    card.innerHTML = `<div class="sk-name">${esc(s.name)}</div><div class="sk-desc">${esc(s.prompt)}</div>
+      <button class="sk-del" title="删除" onclick="event.stopPropagation();delSkill(${i})">✕</button>`;
+    card.onclick = ()=> sendChat(s.prompt);
+    list.appendChild(card);
+  });
+}
+function addSkill(){
+  const name = prompt('给这个技能起个名字（如：季度述职）');
+  if(!name) return;
+  const p = prompt('写下指令内容（AI 将按此分析你的日记）');
+  if(!p) return;
+  SKILLS.push({name:name.trim(), prompt:p.trim()});
+  persistSkills(); renderSkills(); toast('技能已保存');
+}
+function delSkill(i){
+  if(!confirm(`删除技能「${SKILLS[i].name}」？`)) return;
+  SKILLS.splice(i,1); persistSkills(); renderSkills();
+}
+
 /* ==================== 启动 ==================== */
+renderSkills();
+if(AICFG) document.getElementById('ai-model-tag').textContent = AICFG.model;
 refreshSyncBtn();
 if(CFG?.token && CFG?.gistId){
   syncing = true; refreshSyncBtn('busy');
