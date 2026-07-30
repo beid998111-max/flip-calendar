@@ -208,7 +208,16 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 .sync-btn.on .sdot{background:var(--ok);box-shadow:0 0 6px var(--ok);}
 .sync-btn.err .sdot{background:var(--danger);box-shadow:0 0 6px var(--danger);}
 .sync-btn.busy .sdot{background:var(--accent2);animation:blink .8s infinite;}
+.sync-btn.wait .sdot{background:var(--accent);box-shadow:0 0 6px var(--accent);animation:blink 1.6s infinite;}
 @keyframes blink{50%{opacity:.2;}}
+.conflict-bar{
+  background:rgba(224,122,95,.15);border:1px solid rgba(224,122,95,.4);border-radius:8px;
+  padding:7px 11px;font-size:.76rem;color:#8a4a35;margin-bottom:6px;cursor:pointer;line-height:1.5;
+}
+.conflict-bar b{color:var(--danger);}
+.conflict-list{background:rgba(0,0,0,.05);border-radius:8px;padding:10px;font-size:.8rem;line-height:1.7;margin-bottom:6px;}
+.conflict-list .cv{border-left:2px solid #c0b190;padding-left:9px;margin-bottom:8px;color:#5c5344;}
+.conflict-list .cv .m{font-size:.7rem;color:#a08c62;}
 .modal-mask{
   position:fixed;inset:0;background:rgba(6,8,14,.75);backdrop-filter:blur(4px);
   display:none;align-items:center;justify-content:center;z-index:200;padding:20px;
@@ -265,10 +274,32 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 @media(max-width:640px){
-  header{padding:14px;flex-wrap:wrap;gap:10px;}
+  header{padding:12px 14px;flex-wrap:wrap;gap:10px;}
   nav{order:3;width:100%;justify-content:center;}
-  .card{height:520px;}
+  .logo{font-size:1.1rem;}
+  .tools{gap:6px;}
+  .tools button{padding:6px 10px;font-size:.8rem;}
+  main{padding:6px 14px 40px;}
+  .card{height:min(520px,72vh);}
+  .poster{padding:20px;}
+  .poster .date-big{font-size:3.6rem;}
+  .poster .quote{font-size:.95rem;line-height:1.7;}
+  .date-nav{gap:10px;}
+  .date-nav .cur{min-width:auto;font-size:.95rem;}
+  #f-note{height:100px;} #f-right{height:56px;} #f-wrong{height:56px;}
+  .modal{padding:22px 18px;border-radius:14px;}
+  .sync-actions{grid-template-columns:1fr;}
+  #graph-canvas{height:440px;}
+  .rv-card ul{max-height:200px;}
 }
+/* 键盘弹出时压缩卡片，避免输入框被遮挡 */
+body.kb-open .card{height:min(430px,60vh);}
+body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;}
+/* iOS Safari：翻转面内的输入框光标错位修复（延迟到翻转过半再隐藏，不影响动画） */
+.front{transition:visibility 0s .45s;}
+.card.flipped .front{visibility:hidden;}
+.back{-webkit-backface-visibility:hidden;transform:rotateY(180deg) translateZ(0);}
+.back textarea,.back input{-webkit-user-select:text;user-select:text;font-size:16px;}
 </style>
 </head>
 <body>
@@ -514,6 +545,7 @@ function renderDay(){
   if(e?.hw){ const img = new Image(); img.onload = ()=> hwCtx.drawImage(img,0,0); img.src = e.hw; }
   card.classList.remove('flipped','tearing');
   updateStats();
+  if(typeof renderConflict==='function') renderConflict();
 }
 function shiftDay(n){ curDate.setDate(curDate.getDate()+n); renderDay(); }
 function goToday(){ curDate = new Date(); renderDay(); }
@@ -853,6 +885,56 @@ function toast(msg){
   toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
 }
 
+/* ==================== 移动端：软键盘自适应 ==================== */
+if(window.visualViewport){
+  const vv = window.visualViewport;
+  vv.addEventListener('resize', ()=>{
+    const shrunk = (window.innerHeight - vv.height) > 150;   // 键盘弹出
+    document.body.classList.toggle('kb-open', shrunk);
+  });
+}
+/* 输入框聚焦时滚动到可视区（iOS） */
+document.querySelectorAll('.back textarea, .back input').forEach(el=>{
+  el.addEventListener('focus', ()=> setTimeout(()=> el.scrollIntoView({block:'center',behavior:'smooth'}), 320));
+});
+
+/* ==================== 冲突版本查看 ==================== */
+function renderConflict(){
+  const key = fmt(curDate);
+  const e = DB[key];
+  const host = document.getElementById('type-wrap');
+  host.querySelectorAll('.conflict-bar,.conflict-list').forEach(n=>n.remove());
+  if(!e?.conflict?.length) return;
+  const bar = document.createElement('div');
+  bar.className = 'conflict-bar';
+  bar.innerHTML = `⚠️ 这天在另一台设备上还有 <b>${e.conflict.length}</b> 个版本，点击展开对照 · 两份内容都已保留`;
+  const list = document.createElement('div');
+  list.className = 'conflict-list'; list.style.display = 'none';
+  list.innerHTML = e.conflict.map(c=>`
+    <div class="cv"><div class="m">${new Date(c.ts||0).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})} 的版本</div>
+    ${esc(c.note||'')||'<i>无正文</i>'}
+    ${c.right?'<br>✓ '+esc(c.right):''}${c.wrong?'<br>✗ '+esc(c.wrong):''}</div>`).join('')
+    + `<button type="button" onclick="mergeConflictIn()" style="border:1px solid #c0b190;background:transparent;border-radius:7px;padding:5px 11px;font-size:.76rem;cursor:pointer;color:#6b5c38;font-family:inherit;">把这些内容并入正文</button>
+       <button type="button" onclick="dropConflict()" style="border:none;background:transparent;font-size:.76rem;cursor:pointer;color:#a08c62;margin-left:6px;">忽略并清除</button>`;
+  bar.onclick = ()=> list.style.display = list.style.display==='none' ? 'block' : 'none';
+  host.insertBefore(list, host.firstChild);
+  host.insertBefore(bar, host.firstChild);
+}
+function mergeConflictIn(){
+  const key = fmt(curDate), e = DB[key];
+  if(!e?.conflict?.length) return;
+  const extra = e.conflict.map(c=>c.note).filter(Boolean).join('\n');
+  const ta = document.getElementById('f-note');
+  ta.value = (ta.value ? ta.value+'\n—— 另一台设备 ——\n' : '') + extra;
+  delete e.conflict; persist(); renderConflict();
+  toast('已并入正文，记得点保存');
+}
+function dropConflict(){
+  const key = fmt(curDate);
+  if(DB[key]){ delete DB[key].conflict; persist(); schedulePush(); }
+  renderConflict(); toast('已清除冲突提示');
+}
+
 /* ==================== 云同步（GitHub Gist） ==================== */
 const CFG_KEY = 'tearoff-sync-cfg';
 let CFG = JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); // {token,gistId,user,lastSync}
@@ -910,30 +992,55 @@ function unpackData(gistFiles){
   });
   return out;
 }
-/* —— 合并：逐条按时间戳取新，双向安全，不会丢数据 —— */
+/* —— 合并：逐条比对，同日冲突无损保留，绝不静默丢内容 —— */
+function sameContent(a,b){
+  return (a.note||'')===(b.note||'') && (a.right||'')===(b.right||'')
+      && (a.wrong||'')===(b.wrong||'') && JSON.stringify(a.tags||[])===JSON.stringify(b.tags||[]);
+}
 function mergeDB(local, remote){
   const merged = {...local};
-  let added = 0, updated = 0;
+  let added = 0, updated = 0, conflicts = 0;
   Object.entries(remote).forEach(([k,r])=>{
     const l = local[k];
-    if(!l){ merged[k] = r; added++; }
-    else if((r.ts||0) > (l.ts||0)){ merged[k] = {...r, hw: r.hw || l.hw}; updated++; }
-    else if(!l.hw && r.hw){ merged[k] = {...l, hw:r.hw}; }
+    if(!l){ merged[k] = r; added++; return; }
+    if(sameContent(l,r)){                       // 内容相同：只补手写和标签
+      merged[k] = {...(((r.ts||0)>(l.ts||0))?r:l), hw: l.hw || r.hw};
+      return;
+    }
+    const newer = (r.ts||0) > (l.ts||0) ? r : l;
+    const older = newer === r ? l : r;
+    // 一方是另一方的续写（前缀包含）→ 直接取长的，不算冲突
+    const grew = (newer.note||'').startsWith(older.note||'') || !(older.note||'').trim();
+    const box = {...newer, hw: newer.hw || older.hw};
+    if(!grew){                                   // 真冲突：把另一版本存进历史，不丢
+      const hist = [...(l.conflict||[]), ...(r.conflict||[])];
+      const sig = (older.note||'')+'|'+(older.right||'')+'|'+(older.wrong||'');
+      if(!hist.some(h=>((h.note||'')+'|'+(h.right||'')+'|'+(h.wrong||''))===sig)){
+        hist.push({note:older.note,right:older.right,wrong:older.wrong,tags:older.tags,ts:older.ts});
+      }
+      box.conflict = hist.slice(-5);
+      conflicts++;
+    }
+    merged[k] = box;
+    if(newer === r) updated++;
   });
-  return {merged, added, updated};
+  return {merged, added, updated, conflicts};
 }
 
 let syncing = false, pushTimer = null;
 function refreshSyncBtn(state){
   const b = document.getElementById('sync-btn');
   const lb = document.getElementById('sync-label');
-  b.classList.remove('on','err','busy');
+  b.classList.remove('on','err','busy','wait');
   if(state==='busy'){ b.classList.add('busy'); lb.textContent='同步中'; return; }
-  if(state==='err'){ b.classList.add('err'); lb.textContent='同步异常'; return; }
-  if(CFG?.token && CFG?.gistId){ b.classList.add('on'); lb.textContent='已同步'; }
-  else lb.textContent='云同步';
+  if(state==='err'){ b.classList.add('err'); lb.textContent='待重传'; return; }
+  if(state==='off'){ b.classList.add('wait'); lb.textContent='离线待传'; return; }
+  if(CFG?.token && CFG?.gistId){
+    if(hasPending()){ b.classList.add('wait'); lb.textContent='待上传'; }
+    else { b.classList.add('on'); lb.textContent='已同步'; }
+  } else lb.textContent='云同步';
 }
-async function doPull(silent){
+async function doPull(silent, inner){
   if(!CFG?.gistId) return;
   const g = await gh('/gists/'+CFG.gistId);
   // 处理超 1MB 被截断的文件
@@ -943,18 +1050,25 @@ async function doPull(silent){
     }
   }
   const remote = unpackData(g.files||{});
-  const {merged, added, updated} = mergeDB(DB, remote);
+  const {merged, added, updated, conflicts} = mergeDB(DB, remote);
   DB = merged; persist();
   CFG.lastSync = Date.now(); saveCfg();
-  renderDay();
-  if(!silent) toast(added+updated ? `已拉取：新增 ${added} 条，更新 ${updated} 条` : '云端无新内容，已是最新');
-  else if(added+updated) toast(`☁️ 已同步 ${added+updated} 条云端记录`);
-  return {added, updated};
+  if(!inner) renderDay();
+  if(conflicts) markPending();   // 冲突合并后的结果需要回传云端
+  if(!inner){
+    if(!silent) toast(added+updated ? `已拉取：新增 ${added} 条，更新 ${updated} 条` : '云端无新内容，已是最新');
+    else if(added+updated) toast(`☁️ 已同步 ${added+updated} 条云端记录`);
+    if(conflicts) toast(`⚠️ ${conflicts} 天有两台设备的不同版本，已都保留`);
+  }
+  return {added, updated, conflicts};
 }
+/* 上传前先拉取合并，避免两台设备并发 PATCH 互相覆盖 */
 async function doPush(silent){
   if(!CFG?.gistId) return;
+  try{ await doPull(true, true); }catch(e){ if(!navigator.onLine) throw e; }
   await gh('/gists/'+CFG.gistId, {method:'PATCH', body: JSON.stringify({files: packData()})});
   CFG.lastSync = Date.now(); saveCfg();
+  clearPending();
   if(!silent) toast('已上传到云端 ☁️');
 }
 async function syncNow(dir){
@@ -970,17 +1084,55 @@ async function syncNow(dir){
     refreshSyncBtn('err'); toast('同步失败：'+err.message);
   }finally{ syncing = false; }
 }
+/* —— 待同步标记：持久化到 localStorage，保证「最终一定传上去」 —— */
+const PEND_KEY = 'tearoff-pending';
+function markPending(){ localStorage.setItem(PEND_KEY,'1'); refreshSyncBtn(); }
+function clearPending(){ localStorage.removeItem(PEND_KEY); }
+function hasPending(){ return localStorage.getItem(PEND_KEY)==='1'; }
+
 function schedulePush(){
   if(!CFG?.token || !CFG?.gistId) return;
+  markPending();                       // 先落盘标记，再尝试上传
   clearTimeout(pushTimer);
-  pushTimer = setTimeout(()=>{
-    if(syncing) return;
-    syncing = true; refreshSyncBtn('busy');
-    doPush(true).then(()=>{ refreshSyncBtn(); toast('已自动备份到云端 ☁️'); })
-      .catch(e=>{ refreshSyncBtn('err'); toast('自动备份失败：'+e.message); })
-      .finally(()=> syncing = false);
-  }, 1500);
+  pushTimer = setTimeout(()=> flushPush(true), 800);
 }
+/* 统一的上传入口：失败不清标记，等下次机会重试 */
+async function flushPush(silent){
+  if(!CFG?.token || !CFG?.gistId || syncing) return;
+  if(!navigator.onLine){ refreshSyncBtn('off'); return; }
+  clearTimeout(pushTimer);
+  syncing = true; refreshSyncBtn('busy');
+  try{
+    await doPush(true);
+    refreshSyncBtn();
+    if(!silent) toast('已上传到云端 ☁️'); else toast('已自动备份到云端 ☁️');
+  }catch(e){
+    refreshSyncBtn('err');
+    if(!silent) toast('上传失败：'+e.message);
+  }finally{ syncing = false; }
+}
+
+/* 1) 切走 App / 锁屏 / 关标签页前抢救未上传内容 */
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState==='hidden' && hasPending()) flushPush(true);
+});
+window.addEventListener('pagehide', ()=>{ if(hasPending()) flushPush(true); });
+/* 2) 网络恢复后自动补传（地铁出站、飞行模式关闭） */
+window.addEventListener('online', ()=>{
+  refreshSyncBtn();
+  if(hasPending()){ toast('网络已恢复，正在补传…'); flushPush(true); }
+});
+window.addEventListener('offline', ()=> refreshSyncBtn('off'));
+/* 3) 回到前台时拉取另一台设备的新内容 */
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState==='visible' && CFG?.token && CFG?.gistId && !syncing){
+    if(Date.now() - (CFG.lastSync||0) > 30000){
+      syncing = true; refreshSyncBtn('busy');
+      doPull(true).then(()=>{ refreshSyncBtn(); if(hasPending()) flushPush(true); })
+        .catch(()=>refreshSyncBtn('err')).finally(()=> syncing=false);
+    }
+  }
+});
 
 /* —— 弹窗控制 —— */
 function openSync(){
@@ -1047,7 +1199,13 @@ function copyGistId(){
 refreshSyncBtn();
 if(CFG?.token && CFG?.gistId){
   syncing = true; refreshSyncBtn('busy');
-  doPull(true).then(()=>refreshSyncBtn()).catch(e=>{ refreshSyncBtn('err'); toast('云端拉取失败：'+e.message); })
+  doPull(true)
+    .then(()=>{
+      refreshSyncBtn();
+      // 关键：上次没传成功的内容，开机补传
+      if(hasPending()){ syncing = false; toast('检测到未上传的记录，正在补传…'); return flushPush(true); }
+    })
+    .catch(e=>{ refreshSyncBtn(hasPending()?'err':'err'); toast('云端拉取失败：'+e.message); })
     .finally(()=> syncing = false);
 }
 renderDay();
