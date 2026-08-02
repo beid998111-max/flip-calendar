@@ -314,6 +314,71 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 .ai-gear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px;}
 .ai-gear:hover{color:var(--text);}
 
+/* ======= 洞见卡片视图 ======= */
+.ins-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.ins-head h2{font-size:1.2rem;}
+.ins-head h2 small{color:var(--muted);font-size:.78rem;font-weight:400;margin-left:8px;}
+#ins-search{flex:1;min-width:150px;background:var(--bg2);border:1px solid rgba(255,255,255,.12);
+  border-radius:9px;padding:8px 13px;color:var(--text);font-size:.88rem;outline:none;font-family:inherit;}
+#ins-search:focus{border-color:var(--accent);}
+#ins-sort{background:var(--bg2);color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:8px;
+  padding:8px 10px;font-size:.85rem;outline:none;font-family:inherit;cursor:pointer;}
+.ins-btn{border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--muted);border-radius:8px;
+  padding:8px 13px;font-size:.85rem;cursor:pointer;font-family:inherit;transition:.2s;}
+.ins-btn:hover{color:var(--accent);border-color:var(--accent);}
+.ins-tagbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
+.ins-tagbar span{border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:4px 12px;
+  font-size:.78rem;color:var(--muted);cursor:pointer;transition:.2s;}
+.ins-tagbar span:hover{color:var(--text);}
+.ins-tagbar span.on{background:var(--accent);color:#1a1408;border-color:var(--accent);font-weight:600;}
+.ins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:14px;align-items:start;}
+.ins-card{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);
+  padding:16px 17px;display:flex;flex-direction:column;gap:9px;transition:.2s;position:relative;}
+.ins-card:hover{border-color:rgba(232,176,75,.45);transform:translateY(-2px);}
+.ins-card.star{border-color:rgba(232,176,75,.5);background:linear-gradient(150deg,rgba(232,176,75,.07),var(--bg2) 60%);}
+.ins-card h3{font-size:.98rem;line-height:1.55;padding-right:24px;}
+.ins-star{position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;
+  font-size:1rem;color:rgba(255,255,255,.22);transition:.2s;padding:2px 4px;}
+.ins-card.star .ins-star{color:var(--accent);}
+.ins-body{font-size:.85rem;line-height:1.85;color:#c2c6d2;white-space:pre-wrap;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;}
+.ins-card.open .ins-body{-webkit-line-clamp:unset;display:block;}
+.ins-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.ins-tags span{background:rgba(126,200,227,.12);color:var(--accent2);font-size:.72rem;
+  padding:3px 9px;border-radius:100px;cursor:pointer;}
+.ins-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;
+  border-top:1px solid rgba(255,255,255,.06);padding-top:9px;}
+.ins-src{font-size:.72rem;color:var(--muted);}
+.ins-ops{display:flex;gap:2px;}
+.ins-ops button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.82rem;
+  padding:5px 7px;border-radius:6px;}
+.ins-ops button:hover{color:var(--text);background:rgba(255,255,255,.07);}
+.ins-ops button.dg:hover{color:var(--danger);}
+.ins-empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:70px 20px;font-size:.92rem;line-height:2.1;}
+.ins-empty b{color:var(--accent);}
+/* AI 消息底部操作条 */
+.msg-acts{display:flex;gap:7px;margin-top:9px;white-space:normal;}
+.msg-acts button{border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--muted);
+  border-radius:7px;padding:5px 11px;font-size:.75rem;cursor:pointer;font-family:inherit;
+  transition:.2s;min-height:28px;}
+.msg-acts button:hover{color:var(--accent);border-color:var(--accent);}
+/* 提炼弹窗 */
+.hv-hint{font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:12px;}
+.hv-item{display:flex;gap:10px;align-items:flex-start;background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;margin-bottom:9px;cursor:pointer;}
+.hv-item:hover{border-color:rgba(232,176,75,.35);}
+.hv-item input{margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--accent);}
+.hv-t{font-size:.9rem;font-weight:600;margin-bottom:3px;line-height:1.5;}
+.hv-b{font-size:.78rem;color:var(--muted);line-height:1.7;max-height:68px;overflow:hidden;white-space:pre-wrap;}
+/* 卡片编辑表单 */
+.fld{margin-bottom:14px;}
+.fld label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px;}
+.modal .fld input[type=text],.modal .fld textarea{
+  width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:9px;
+  padding:10px 13px;color:var(--text);font-size:.9rem;outline:none;
+  font-family:inherit;line-height:1.75;resize:vertical;}
+.modal .fld input[type=text]:focus,.modal .fld textarea:focus{border-color:var(--accent);}
+
 /* toast */
 #toast{
   position:fixed;bottom:34px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -339,6 +404,11 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
   .sync-actions{grid-template-columns:1fr;}
   #graph-canvas{height:440px;}
   .rv-card ul{max-height:200px;}
+  nav{flex-wrap:wrap;padding:4px;gap:4px;}
+  nav button{padding:7px 12px;font-size:.86rem;}
+  .ins-grid{grid-template-columns:1fr;}
+  .ins-head h2{width:100%;}
+  .ins-btn{flex:1;text-align:center;}
 }
 /* 键盘弹出时压缩卡片，避免输入框被遮挡 */
 body.kb-open .card{height:min(430px,60vh);}
@@ -359,6 +429,7 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     <button data-view="graph">✨ 星图</button>
     <button data-view="review">📊 复盘</button>
     <button data-view="ai">🤖 问我</button>
+    <button data-view="insights">💡 洞见</button>
   </nav>
   <div class="tools">
     <button class="sync-btn" id="sync-btn" onclick="openSync()"><span class="sdot"></span><span id="sync-label">云同步</span></button>
@@ -503,6 +574,23 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
       </div>
     </div>
   </section>
+
+  <!-- ============ 洞见卡片 ============ -->
+  <section class="view" id="view-insights">
+    <div class="ins-head">
+      <h2>💡 洞见卡片<small id="ins-count"></small></h2>
+      <input id="ins-search" placeholder="🔍 搜索标题 / 正文 / 标签">
+      <select id="ins-sort">
+        <option value="new">最新优先</option>
+        <option value="star">精选优先</option>
+        <option value="old">最早优先</option>
+      </select>
+      <button class="ins-btn" onclick="randomReview()">🎲 随机回顾</button>
+      <button class="ins-btn" onclick="openCardEdit(null)">＋ 新建</button>
+    </div>
+    <div class="ins-tagbar" id="ins-tagbar"></div>
+    <div class="ins-grid" id="ins-grid"></div>
+  </section>
 </main>
 
 <!-- ============ AI 设置弹窗 ============ -->
@@ -523,6 +611,36 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     <div class="modal-foot">
       <button class="bt-ghost" onclick="document.getElementById('ai-cfg-modal').classList.remove('show')">取消</button>
       <button class="bt-primary" onclick="saveAiCfg()">测试并保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 提炼卡片弹窗 ============ -->
+<div class="modal-mask" id="harvest-modal" onclick="if(event.target===this) this.classList.remove('show')">
+  <div class="modal">
+    <h2>📌 提炼为洞见卡片</h2>
+    <div class="hv-hint" id="hv-hint"></div>
+    <div id="harvest-list"></div>
+    <div class="modal-foot">
+      <button class="bt-ghost" onclick="document.getElementById('harvest-modal').classList.remove('show')">取消</button>
+      <button class="bt-primary" onclick="harvestSelected()">保存所选</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 卡片编辑弹窗 ============ -->
+<div class="modal-mask" id="card-modal" onclick="if(event.target===this) this.classList.remove('show')">
+  <div class="modal">
+    <h2 id="card-modal-t">✎ 编辑卡片</h2>
+    <div class="fld"><label>标题</label>
+      <input type="text" id="cd-title" placeholder="一句话概括这个洞见"></div>
+    <div class="fld"><label>正文</label>
+      <textarea id="cd-body" rows="9" placeholder="展开说明、原始结论、行动项…"></textarea></div>
+    <div class="fld"><label>标签（逗号或空格分隔）</label>
+      <input type="text" id="cd-tags" placeholder="方法论, 习惯"></div>
+    <div class="modal-foot">
+      <button class="bt-ghost" onclick="document.getElementById('card-modal').classList.remove('show')">取消</button>
+      <button class="bt-primary" onclick="saveCardEdit()">保存</button>
     </div>
   </div>
 </div>
@@ -782,6 +900,7 @@ function switchView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+name));
   if(name==='graph') initGraph();
   if(name==='review'){ buildMonthOptions(); renderReview(); }
+  if(name==='insights') renderInsights();
 }
 document.querySelectorAll('nav button').forEach(b=> b.onclick = ()=> switchView(b.dataset.view));
 
@@ -971,7 +1090,7 @@ function esc(s){ const d=document.createElement('div'); d.textContent=s; return 
 
 /* ==================== 导入导出 ==================== */
 function exportData(){
-  const blob = new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const blob = new Blob([JSON.stringify({__v:2, entries:DB, cards:CARDS}, null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `撕历备份_${fmt(new Date())}.json`;
@@ -984,7 +1103,10 @@ function importData(input){
   reader.onload = ()=>{
     try{
       const data = JSON.parse(reader.result);
-      DB = mergeDB(DB, data).merged; persist(); schedulePush();
+      const isV2 = data && data.__v >= 2 && data.entries;
+      DB = mergeDB(DB, isV2 ? data.entries : data).merged; persist();
+      if(isV2 && Array.isArray(data.cards)){ CARDS = mergeCards(CARDS, data.cards); persistCards(); renderInsights(); }
+      schedulePush();
       renderDay(); toast(`导入成功，共 ${Object.keys(DB).length} 条记录`);
     }catch{ toast('文件格式不正确'); }
   };
@@ -1051,10 +1173,217 @@ function dropConflict(){
   renderConflict(); toast('已清除冲突提示');
 }
 
+/* ==================== 洞见卡片 ==================== */
+const CARDS_KEY = 'tearoff-cards';
+let CARDS = [];
+try{ CARDS = JSON.parse(localStorage.getItem(CARDS_KEY) || '[]'); }catch(_){ CARDS = []; }
+let insQ = '', insTag = '', insSort = 'new';
+let hvBlocks = [], editingId = null;
+
+function persistCards(){
+  try{ localStorage.setItem(CARDS_KEY, JSON.stringify(CARDS)); }
+  catch(_){ toast('本地存储空间不足，卡片未能保存'); }
+}
+function cardUid(){ return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function liveCards(){ return CARDS.filter(c=>!c.del); }
+function cardSig(c){ return (c.title||'').trim()+'\u0001'+(c.body||'').trim(); }
+function attr(s){ return esc(String(s)).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* —— 增删改 —— */
+function addCard(o){
+  const sig = cardSig(o);
+  if(liveCards().some(c=>cardSig(c)===sig)) return null;
+  const now = Date.now();
+  const c = {
+    id: cardUid(),
+    title: (o.title||'').trim().slice(0,80)
+           || (o.body||'').trim().split('\n')[0].slice(0,30) || '未命名洞见',
+    body: (o.body||'').trim(),
+    tags: (o.tags||[]).filter(Boolean),
+    src: o.src || 'manual',
+    srcDate: o.srcDate || fmt(new Date()),
+    star:false, ts:now, mt:now, del:0
+  };
+  CARDS.unshift(c);
+  return c;
+}
+function updateCard(id, patch){
+  const c = CARDS.find(x=>x.id===id); if(!c) return;
+  Object.assign(c, patch, {mt: Date.now()});
+}
+function removeCard(id){
+  const c = CARDS.find(x=>x.id===id); if(!c) return;
+  if(!confirm(`删除卡片「${c.title}」？\n其他设备同步后也会一并删除。`)) return;
+  const now = Date.now(); c.del = now; c.mt = now;
+  persistCards(); schedulePush(); renderInsights(); toast('已删除');
+}
+function starCard(id){
+  const c = CARDS.find(x=>x.id===id); if(!c) return;
+  updateCard(id, {star: !c.star});
+  persistCards(); schedulePush(); renderInsights();
+}
+function copyCard(id){
+  const c = CARDS.find(x=>x.id===id); if(!c) return;
+  navigator.clipboard?.writeText(`【${c.title}】\n${c.body}`)
+    .then(()=>toast('已复制到剪贴板')).catch(()=>toast('复制失败'));
+}
+
+/* —— 解析 AI 回复里的「### 卡片 N: 标题」结构 —— */
+const CARD_HEAD = /^[ \t]{0,3}(?:#{1,6}[ \t]*|\*\*[ \t]*)卡片[ \t]*([0-9０-９一二三四五六七八九十]*)[ \t]*[:：\-—.、]?[ \t]*(.*?)[ \t]*\**[ \t]*$/gm;
+function parseCardBlocks(text){
+  CARD_HEAD.lastIndex = 0;
+  const heads = []; let m;
+  while((m = CARD_HEAD.exec(text))){
+    heads.push({s:m.index, e:CARD_HEAD.lastIndex, n:m[1], t:(m[2]||'').replace(/[*_`#]/g,'').trim()});
+  }
+  return heads.map((h,i)=>({
+    title: h.t || ('卡片 '+(h.n || (i+1))),
+    body: text.slice(h.e, i+1<heads.length ? heads[i+1].s : text.length).trim()
+  })).filter(b=>b.title || b.body);
+}
+
+/* —— AI 消息底部操作条 —— */
+function addMsgActions(div, text){
+  if(!div || !text || !text.trim() || div.querySelector('.msg-acts')) return;
+  const n = parseCardBlocks(text).length;
+  const bar = document.createElement('div');
+  bar.className = 'msg-acts';
+  const b = document.createElement('button');
+  b.textContent = n ? `📌 提炼 ${n} 张卡片` : '📌 存为卡片';
+  b.onclick = ()=> openHarvest(text);
+  bar.appendChild(b);
+  div.appendChild(bar);
+}
+
+/* —— 提炼弹窗 —— */
+function openHarvest(text){
+  const blocks = parseCardBlocks(text);
+  const whole = {
+    title: text.trim().split('\n')[0].replace(/^[#*\s]+/,'').slice(0,40) || 'AI 回复',
+    body: text.trim()
+  };
+  hvBlocks = blocks.concat([whole]);
+  const wi = hvBlocks.length - 1;
+  document.getElementById('hv-hint').textContent = blocks.length
+    ? `识别到 ${blocks.length} 张「卡片」结构，已默认全选；也可改选整条消息。`
+    : '未识别到「### 卡片 N: 标题」结构，可先整条收藏，之后在洞见里编辑拆分。';
+  document.getElementById('harvest-list').innerHTML = hvBlocks.map((b,i)=>`
+    <label class="hv-item">
+      <input type="checkbox" data-i="${i}" ${(i!==wi || blocks.length===0)?'checked':''}>
+      <div><div class="hv-t">${i===wi?'📄 整条消息作为一张卡片':esc(b.title)}</div>
+      <div class="hv-b">${esc(b.body.slice(0,220))}${b.body.length>220?'…':''}</div></div>
+    </label>`).join('');
+  document.getElementById('harvest-modal').classList.add('show');
+}
+function harvestSelected(){
+  const boxes = [...document.querySelectorAll('#harvest-list input:checked')];
+  if(!boxes.length){ toast('先勾选至少一张'); return; }
+  let n = 0, dup = 0;
+  boxes.forEach(b=>{
+    const blk = hvBlocks[+b.dataset.i];
+    addCard({title:blk.title, body:blk.body, src:'ai'}) ? n++ : dup++;
+  });
+  persistCards(); schedulePush(); renderInsights();
+  document.getElementById('harvest-modal').classList.remove('show');
+  toast(n ? `已存入 ${n} 张洞见卡片 💡${dup?`（${dup} 张已收藏过）`:''}` : '这些内容已经收藏过了');
+}
+
+/* —— 编辑 —— */
+function openCardEdit(id){
+  editingId = id || null;
+  const c = id ? CARDS.find(x=>x.id===id) : null;
+  document.getElementById('card-modal-t').textContent = c ? '✎ 编辑卡片' : '＋ 新建洞见卡片';
+  document.getElementById('cd-title').value = c?.title || '';
+  document.getElementById('cd-body').value  = c?.body  || '';
+  document.getElementById('cd-tags').value  = (c?.tags||[]).join(', ');
+  document.getElementById('card-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('cd-title').focus(), 80);
+}
+function saveCardEdit(){
+  const title = document.getElementById('cd-title').value.trim();
+  const body  = document.getElementById('cd-body').value.trim();
+  const tags  = document.getElementById('cd-tags').value
+                  .split(/[,，;；\s]+/).map(s=>s.replace(/^#/,'').trim()).filter(Boolean);
+  if(!title && !body){ toast('至少写点内容'); return; }
+  if(editingId) updateCard(editingId, {title: title||'未命名洞见', body, tags});
+  else if(!addCard({title, body, tags, src:'manual'})){ toast('已有相同内容的卡片'); return; }
+  persistCards(); schedulePush(); renderInsights();
+  document.getElementById('card-modal').classList.remove('show');
+  toast('已保存 💡');
+}
+
+/* —— 渲染 —— */
+function filterTag(t){ insTag = (insTag===t ? '' : t); renderInsights(); }
+function renderInsights(){
+  const grid = document.getElementById('ins-grid');
+  if(!grid) return;
+  const all = liveCards();
+  document.getElementById('ins-count').textContent = all.length ? `共 ${all.length} 张` : '';
+  const tc = {};
+  all.forEach(c=>(c.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
+  const tags = Object.entries(tc).sort((a,b)=>b[1]-a[1]).slice(0,14);
+  document.getElementById('ins-tagbar').innerHTML = tags.length
+    ? `<span class="${insTag?'':'on'}" onclick="filterTag('')">全部</span>`
+      + tags.map(([t,n])=>`<span class="${insTag===t?'on':''}" onclick="filterTag('${attr(t)}')"># ${esc(t)} ${n}</span>`).join('')
+    : '';
+  const q = insQ.toLowerCase();
+  const list = all.filter(c=>{
+    if(insTag && !(c.tags||[]).includes(insTag)) return false;
+    if(!q) return true;
+    return (c.title+' '+c.body+' '+(c.tags||[]).join(' ')).toLowerCase().includes(q);
+  }).sort((a,b)=>
+      insSort==='old'  ? (a.ts-b.ts)
+    : insSort==='star' ? ((b.star?1:0)-(a.star?1:0) || b.ts-a.ts)
+    :                    (b.ts-a.ts));
+  if(!list.length){
+    grid.innerHTML = all.length
+      ? `<div class="ins-empty">没有匹配的卡片 🔍<br>换个关键词，或点「全部」清除筛选</div>`
+      : `<div class="ins-empty">还没有洞见卡片 💡<br>
+           去「🤖 问我」提问，在 AI 回答下点 <b>📌 提炼卡片</b><br>
+           把有价值的结论收进来，它们会一直陪着你</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(c=>`
+    <article class="ins-card ${c.star?'star':''}" data-id="${attr(c.id)}">
+      <button class="ins-star" title="精选" onclick="starCard('${attr(c.id)}')">${c.star?'★':'☆'}</button>
+      <h3>${esc(c.title)}</h3>
+      ${c.body?`<div class="ins-body" onclick="this.parentNode.classList.toggle('open')">${esc(c.body)}</div>`:''}
+      ${(c.tags||[]).length?`<div class="ins-tags">${c.tags.map(t=>`<span onclick="filterTag('${attr(t)}')"># ${esc(t)}</span>`).join('')}</div>`:''}
+      <div class="ins-foot">
+        <span class="ins-src">${c.src==='ai'?'🤖':'✍️'} ${esc((c.srcDate||'').slice(5))}</span>
+        <span class="ins-ops">
+          <button title="编辑" onclick="openCardEdit('${attr(c.id)}')">✎</button>
+          <button title="复制" onclick="copyCard('${attr(c.id)}')">⧉</button>
+          <button class="dg" title="删除" onclick="removeCard('${attr(c.id)}')">🗑</button>
+        </span>
+      </div>
+    </article>`).join('');
+}
+function randomReview(){
+  const all = liveCards();
+  if(!all.length){ toast('还没有卡片可以回顾'); return; }
+  const starred = all.filter(c=>c.star);
+  const pool = (starred.length && Math.random() < .6) ? starred : all;
+  const c = pool[Math.floor(Math.random()*pool.length)];
+  insQ = ''; insTag = '';
+  document.getElementById('ins-search').value = '';
+  renderInsights();
+  const el = document.querySelector(`.ins-card[data-id="${c.id}"]`);
+  if(el){
+    el.classList.add('open');
+    el.scrollIntoView({block:'center', behavior:'smooth'});
+    el.style.outline = '2px solid var(--accent)';
+    setTimeout(()=> el.style.outline = '', 1600);
+  }
+}
+document.getElementById('ins-search').addEventListener('input', e=>{ insQ = e.target.value.trim(); renderInsights(); });
+document.getElementById('ins-sort').addEventListener('change', e=>{ insSort = e.target.value; renderInsights(); });
+
 /* ==================== 云同步（GitHub Gist） ==================== */
 const CFG_KEY = 'tearoff-sync-cfg';
 let CFG = JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); // {token,gistId,user,lastSync}
 const GIST_MAIN = 'tearoff-data.json';
+const GIST_CARDS = 'tearoff-cards.json';
 const API = 'https://api.github.com';
 
 function saveCfg(){ localStorage.setItem(CFG_KEY, JSON.stringify(CFG)); refreshSyncBtn(); }
@@ -1089,6 +1418,7 @@ function packData(){
     if(e.hw){ const m = k.slice(0,7); (hwByMonth[m] = hwByMonth[m]||{})[k] = e.hw; }
   });
   files[GIST_MAIN] = {content: JSON.stringify({v:1, updated:Date.now(), entries:main, chat: chatHistory}, null, 1)};
+  files[GIST_CARDS] = {content: JSON.stringify({v:1, updated:Date.now(), cards:CARDS}, null, 1)};
   Object.entries(hwByMonth).forEach(([m,obj])=>{
     files[`tearoff-hw-${m}.json`] = {content: JSON.stringify(obj)};
   });
@@ -1097,18 +1427,20 @@ function packData(){
 function unpackData(gistFiles){
   const out = {};
   const mainFile = gistFiles[GIST_MAIN];
-  let chat = [];
+  let chat = [], cards = [];
   if(mainFile && mainFile.content){
     const parsed = JSON.parse(mainFile.content);
     Object.entries(parsed.entries||{}).forEach(([k,e])=> out[k] = {...e});
     chat = parsed.chat || [];
   }
+  const cf = gistFiles[GIST_CARDS];
+  if(cf && cf.content){ try{ cards = JSON.parse(cf.content).cards || []; }catch{} }
   Object.entries(gistFiles).forEach(([name,f])=>{
     if(name.startsWith('tearoff-hw-') && f.content){
       try{ Object.entries(JSON.parse(f.content)).forEach(([k,hw])=>{ if(out[k]) out[k].hw = hw; }); }catch{}
     }
   });
-  return {db: out, chat};
+  return {db: out, chat, cards};
 }
 /* —— 合并：逐条比对，同日冲突无损保留，绝不静默丢内容 —— */
 function sameContent(a,b){
@@ -1154,6 +1486,25 @@ function mergeChat(local, remote){
   const extra = other.filter(m=>!seen.has(m.role+'\u0001'+m.content));
   return base.concat(extra);
 }
+/* —— 合并卡片：按 id 归并，mt 大者胜；删除用墓碑传播；60 天后清理墓碑 —— */
+function mergeCards(local, remote){
+  const map = new Map();
+  const put = c=>{
+    if(!c || !c.id) return;
+    const p = map.get(c.id);
+    if(!p){ map.set(c.id, c); return; }
+    const ct = c.mt||c.ts||0, pt = p.mt||p.ts||0;
+    let win;
+    if(ct !== pt) win = ct > pt ? c : p;
+    else          win = (c.del ? c : (p.del ? p : c));
+    map.set(c.id, win);
+  };
+  (local||[]).forEach(put); (remote||[]).forEach(put);
+  const NOW = Date.now();
+  return [...map.values()]
+    .filter(c => !c.del || (NOW - c.del) < 60*864e5)
+    .sort((a,b)=> (b.ts||0)-(a.ts||0));
+}
 
 let syncing = false, pushTimer = null;
 function refreshSyncBtn(state){
@@ -1177,7 +1528,7 @@ async function doPull(silent, inner){
       try{ f.content = await fetch(f.raw_url).then(r=>r.text()); }catch{}
     }
   }
-  const {db: remoteDb, chat: remoteChat} = unpackData(g.files||{});
+  const {db: remoteDb, chat: remoteChat, cards: remoteCards} = unpackData(g.files||{});
   const {merged, added, updated, conflicts} = mergeDB(DB, remoteDb);
   DB = merged; persist();
   // 同步聊天记录：合并云端与本机，变化了就更新本地并刷新对话区
@@ -1185,6 +1536,12 @@ async function doPull(silent, inner){
   if(mergedChat.length!==chatHistory.length || JSON.stringify(mergedChat)!==JSON.stringify(chatHistory)){
     chatHistory = mergedChat; persistChat();
     if(!aiBusy) renderChat();
+  }
+  // 同步洞见卡片
+  const mergedCards = mergeCards(CARDS, remoteCards);
+  if(JSON.stringify(mergedCards) !== JSON.stringify(CARDS)){
+    CARDS = mergedCards; persistCards();
+    if(document.getElementById('view-insights')?.classList.contains('active')) renderInsights();
   }
   CFG.lastSync = Date.now(); saveCfg();
   if(!inner) renderDay();
@@ -1281,7 +1638,7 @@ function renderSyncPanel(){
   if(!CFG) return;
   document.getElementById('st-user').textContent = CFG.user || '—';
   document.getElementById('st-gist').textContent = CFG.gistId || '—';
-  document.getElementById('st-local').textContent = Object.keys(DB).length + ' 条';
+  document.getElementById('st-local').textContent = Object.keys(DB).length + ' 条 · ' + liveCards().length + ' 张卡片';
   document.getElementById('st-time').textContent = CFG.lastSync
     ? new Date(CFG.lastSync).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '尚未同步';
   const bytes = new Blob([JSON.stringify(DB)]).size;
@@ -1415,7 +1772,10 @@ function renderChat(){
   if(!body) return;
   body.innerHTML = '';
   if(!chatHistory.length){ body.innerHTML = CHAT_EMPTY_HTML; return; }
-  chatHistory.forEach(m=> appendMsg(m.role==='user'?'user':'ai', m.content));
+  chatHistory.forEach(m=>{
+    const d = appendMsg(m.role==='user'?'user':'ai', m.content);
+    if(m.role!=='user') addMsgActions(d, m.content);
+  });
 }
 function clearChat(){
   if(chatHistory.length && !confirm('清空这段对话？日记数据不受影响。')) return;
@@ -1482,6 +1842,7 @@ async function sendChat(presetPrompt){
     meta.className = 'm-meta';
     meta.textContent = `${AICFG.model} · 基于 ${ctx.days} 天记录`;
     aiDiv.appendChild(meta);
+    addMsgActions(aiDiv, full);
   }catch(e){
     aiDiv.classList.remove('thinking');
     aiDiv.textContent = '出错了：'+e.message+'\n（检查 Key 是否有效、账户是否有余额）';
@@ -1524,6 +1885,7 @@ function delSkill(i){
 /* ==================== 启动 ==================== */
 renderChat();          // 把上次保存的对话恢复出来（刷新不再丢失）
 renderSkills();
+renderInsights();      // 初始化洞见卡片视图
 if(AICFG) document.getElementById('ai-model-tag').textContent = AICFG.model;
 refreshSyncBtn();
 if(CFG?.token && CFG?.gistId){
