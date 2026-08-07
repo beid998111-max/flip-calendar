@@ -379,6 +379,97 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
   font-family:inherit;line-height:1.75;resize:vertical;}
 .modal .fld input[type=text]:focus,.modal .fld textarea:focus{border-color:var(--accent);}
 
+/* ======= 事项管理（工作/生活 · 清单/象限/看板） ======= */
+.tk-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px;}
+.tk-cattab{display:flex;gap:4px;background:var(--bg2);border-radius:10px;padding:4px;}
+.tk-cattab button{border:none;background:transparent;color:var(--muted);border-radius:7px;padding:7px 16px;font-size:.88rem;cursor:pointer;font-family:inherit;transition:.2s;}
+.tk-cattab button.on{background:var(--accent);color:#1a1408;font-weight:600;}
+.tk-subtab{display:flex;gap:4px;background:var(--bg2);border-radius:10px;padding:4px;margin-left:auto;}
+.tk-subtab button{border:none;background:transparent;color:var(--muted);border-radius:7px;padding:7px 14px;font-size:.84rem;cursor:pointer;font-family:inherit;transition:.2s;}
+.tk-subtab button.on{background:var(--accent2);color:#0e1726;font-weight:600;}
+.tk-add{display:flex;gap:8px;margin-bottom:14px;}
+.tk-add input{flex:1;background:var(--bg2);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:10px 13px;color:var(--text);font-size:.9rem;outline:none;font-family:inherit;}
+.tk-add input:focus{border-color:var(--accent);}
+.tk-add button{border:none;background:var(--accent);color:#1a1408;border-radius:9px;padding:0 20px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+/* 清单 */
+.tk-list{display:flex;flex-direction:column;gap:8px;}
+.tk-item{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 14px;transition:.2s;}
+.tk-item:hover{border-color:rgba(232,176,75,.35);}
+.tk-item.done{opacity:.55;}
+.tk-item.done .tk-text{text-decoration:line-through;}
+.tk-check{width:18px;height:18px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;}
+.tk-text{flex:1;font-size:.92rem;line-height:1.5;word-break:break-word;}
+.tk-qbadge{font-size:.68rem;padding:2px 8px;border-radius:100px;background:rgba(232,176,75,.16);color:var(--accent);white-space:nowrap;}
+.tk-ops{display:flex;gap:2px;}
+.tk-ops button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.82rem;padding:5px 6px;border-radius:6px;}
+.tk-ops button:hover{color:var(--text);background:rgba(255,255,255,.07);}
+.tk-ops button.dg:hover{color:var(--danger);}
+/* 四象限 */
+.tk-q{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tk-qcell{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 13px;min-height:130px;}
+.tk-qcell h4{font-size:.84rem;margin:0 0 9px;display:flex;align-items:center;gap:6px;}
+.tk-qcell.q1{border-color:rgba(224,122,95,.5);}
+.tk-qcell.q1 h4{color:#e07a5f;}
+.tk-qcell.q2 h4{color:var(--accent);}
+.tk-qcell.q3 h4{color:var(--accent2);}
+.tk-qcell.q4 h4{color:var(--muted);}
+.tk-chip{display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 9px;margin-bottom:7px;font-size:.83rem;}
+.tk-chip .tk-ctext{flex:1;line-height:1.4;word-break:break-word;}
+.tk-chip button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.74rem;padding:2px 5px;border-radius:5px;}
+.tk-chip button:hover{color:var(--text);background:rgba(255,255,255,.08);}
+.tk-pool{background:var(--bg2);border:1px dashed rgba(255,255,255,.14);border-radius:12px;padding:12px 13px;margin-bottom:12px;}
+.tk-pool h4{font-size:.82rem;color:var(--muted);margin:0 0 9px;}
+/* 看板 */
+.tk-kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;align-items:start;}
+.tk-col{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px;min-height:120px;}
+.tk-col h4{font-size:.8rem;margin:0 0 9px;color:var(--muted);display:flex;justify-content:space-between;}
+.tk-col.c-done h4{color:var(--accent);}
+.tk-col.c-blocked h4{color:var(--danger);}
+.tk-card{background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:9px 10px;margin-bottom:8px;font-size:.83rem;line-height:1.5;cursor:grab;}
+.tk-card:hover{border-color:rgba(232,176,75,.3);}
+.tk-card .tk-ctext{word-break:break-word;}
+.tk-card .tk-meta{margin-top:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;}
+.tk-card .tk-when{font-size:.66rem;color:var(--muted);}
+.tk-card .tk-move{font-size:.66rem;color:var(--accent2);cursor:pointer;border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:2px 6px;background:none;}
+.tk-card .tk-move:hover{color:var(--accent);border-color:var(--accent);}
+.tk-empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:.92rem;line-height:2;}
+
+/* 目标画布（便利贴） */
+.gc-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px;}
+.gc-add{display:flex;gap:8px;flex:1;min-width:240px;}
+.gc-add input{flex:1;background:var(--bg2);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:10px 13px;color:var(--text);font-size:.9rem;outline:none;font-family:inherit;}
+.gc-add input:focus{border-color:var(--accent);}
+.gc-add button{border:none;background:var(--accent);color:#1a1408;border-radius:9px;padding:0 20px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+.gc-filter{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.85rem;cursor:pointer;user-select:none;}
+.gc-filter input{accent-color:var(--accent);}
+.gc-canvas{position:relative;min-height:62vh;border:1px dashed rgba(255,255,255,.14);border-radius:16px;
+  background:radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0) 0 0/22px 22px;
+  overflow:auto;padding:8px;}
+.gc-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--muted);text-align:center;font-size:.92rem;line-height:2;pointer-events:none;padding:0 20px;}
+.gc-note{position:absolute;width:172px;background:var(--gc-color,#ffd866);color:#2a2410;border-radius:12px;padding:11px 12px 10px;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:grab;user-select:none;touch-action:none;}
+.gc-note.gc-dragging{cursor:grabbing;box-shadow:0 12px 28px rgba(0,0,0,.5);transform:scale(1.03);z-index:20;}
+.gc-note.gc-marked{box-shadow:0 0 0 2px var(--accent), 0 8px 22px rgba(232,176,75,.4);}
+.gc-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.gc-flag{background:none;border:none;cursor:pointer;font-size:.98rem;padding:0;line-height:1;}
+.gc-grip{color:rgba(0,0,0,.32);font-size:.8rem;letter-spacing:-2px;}
+.gc-text{font-size:.95rem;font-weight:600;line-height:1.45;word-break:break-word;min-height:22px;}
+.gc-ops{display:flex;gap:2px;justify-content:flex-end;}
+.gc-ops button{background:none;border:none;color:rgba(0,0,0,.45);cursor:pointer;font-size:.82rem;padding:3px 6px;border-radius:6px;}
+.gc-ops button:hover{background:rgba(0,0,0,.12);color:#000;}
+.gc-ops button.dg:hover{color:#b00;}
+.gc-colors{display:flex;gap:8px;flex-wrap:wrap;}
+.gc-swatch{width:26px;height:26px;border-radius:7px;cursor:pointer;border:2px solid transparent;}
+.gc-swatch.on{border-color:var(--accent);}
+.gc-stars{display:flex;gap:0;align-items:center;}
+.gc-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:8px;}
+.gc-note .gc-star{background:none;border:none;cursor:pointer;font-size:.92rem;line-height:1;padding:1px 1px;color:rgba(0,0,0,.28);}
+.gc-note .gc-star.on{color:#e8820c;}
+.gc-note .gc-star:hover{color:#e8820c;}
+.modal .gc-stars{margin-top:2px;}
+.modal .gc-star{background:none;border:none;cursor:pointer;font-size:1.1rem;line-height:1;padding:2px 3px;color:rgba(255,255,255,.3);}
+.modal .gc-star.on{color:var(--accent);}
+.modal .gc-star:hover{color:var(--accent);}
+
 /* toast */
 #toast{
   position:fixed;bottom:34px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -409,6 +500,12 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
   .ins-grid{grid-template-columns:1fr;}
   .ins-head h2{width:100%;}
   .ins-btn{flex:1;text-align:center;}
+  .tk-q{grid-template-columns:1fr;}
+  .tk-kanban{grid-template-columns:1fr;}
+  .tk-subtab{margin-left:0;width:100%;}
+  .tk-top{flex-direction:column;align-items:stretch;}
+  .gc-note{width:150px;}
+  .gc-canvas{min-height:64vh;}
 }
 /* 键盘弹出时压缩卡片，避免输入框被遮挡 */
 body.kb-open .card{height:min(430px,60vh);}
@@ -430,6 +527,8 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     <button data-view="review">📊 复盘</button>
     <button data-view="ai">🤖 问我</button>
     <button data-view="insights">💡 洞见</button>
+    <button data-view="tasks">📋 事项</button>
+    <button data-view="canvas">🎯 目标</button>
   </nav>
   <div class="tools">
     <button class="sync-btn" id="sync-btn" onclick="openSync()"><span class="sdot"></span><span id="sync-label">云同步</span></button>
@@ -591,6 +690,59 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     <div class="ins-tagbar" id="ins-tagbar"></div>
     <div class="ins-grid" id="ins-grid"></div>
   </section>
+
+  <!-- ============ 事项管理 ============ -->
+  <section class="view" id="view-tasks">
+    <div class="tk-top">
+      <div class="tk-cattab">
+        <button id="tk-cat-work" onclick="switchTaskCat('work')">💼 工作</button>
+        <button id="tk-cat-life" onclick="switchTaskCat('life')">🌿 生活</button>
+      </div>
+      <div class="tk-subtab">
+        <button data-tab="list" onclick="switchTaskTab('list')">☐ 待办清单</button>
+        <button data-tab="matrix" onclick="switchTaskTab('matrix')">▦ 优先级象限</button>
+        <button data-tab="board" onclick="switchTaskTab('board')">▤ 状态追踪</button>
+      </div>
+    </div>
+    <div id="tk-list" class="tk-pane">
+      <div class="tk-add">
+        <input id="tk-input" placeholder="加一件想做的事…" onkeydown="if(event.key==='Enter') addTaskFromInput()">
+        <button onclick="addTaskFromInput()">添加</button>
+      </div>
+      <div class="tk-list" id="tk-list-body"></div>
+    </div>
+    <div id="tk-matrix" class="tk-pane" style="display:none;">
+      <div class="tk-pool" id="tk-pool-wrap"><h4>⏳ 待归类</h4><div id="tk-pool"></div></div>
+      <div class="tk-q">
+        <div class="tk-qcell q1"><h4>① 重要且紧急</h4><div id="tk-q1"></div></div>
+        <div class="tk-qcell q2"><h4>② 重要不紧急</h4><div id="tk-q2"></div></div>
+        <div class="tk-qcell q3"><h4>③ 不重要但紧急</h4><div id="tk-q3"></div></div>
+        <div class="tk-qcell q4"><h4>④ 不重要不紧急</h4><div id="tk-q4"></div></div>
+      </div>
+    </div>
+    <div id="tk-board" class="tk-pane" style="display:none;">
+      <div class="tk-kanban">
+        <div class="tk-col" data-st="plan"><h4>📋 计划</h4><div id="tk-c-plan"></div></div>
+        <div class="tk-col" data-st="doing"><h4>🚧 进行中</h4><div id="tk-c-doing"></div></div>
+        <div class="tk-col c-done" data-st="done"><h4>✅ 完成</h4><div id="tk-c-done"></div></div>
+        <div class="tk-col c-blocked" data-st="blocked"><h4>⏸ 搁置</h4><div id="tk-c-blocked"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 目标画布 ============ -->
+  <section class="view" id="view-canvas">
+    <div class="gc-top">
+      <div class="gc-add">
+        <input id="gc-input" placeholder="想一个关键词，贴到画布上…" onkeydown="if(event.key==='Enter') addGoalFromInput()">
+        <button onclick="addGoalFromInput()">＋ 贴一张</button>
+      </div>
+      <label class="gc-filter"><input type="checkbox" id="gc-only" onchange="setGoalFilter(this.checked)"> 只看目标点位</label>
+    </div>
+    <div class="gc-canvas" id="gc-canvas">
+      <div class="gc-hint" id="gc-hint">把想到的词钉在这里 👆<br>点 🎯 把它标记为你的目标点位，<br>用关键词看清自己要去哪</div>
+    </div>
+  </section>
 </main>
 
 <!-- ============ AI 设置弹窗 ============ -->
@@ -641,6 +793,56 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     <div class="modal-foot">
       <button class="bt-ghost" onclick="document.getElementById('card-modal').classList.remove('show')">取消</button>
       <button class="bt-primary" onclick="saveCardEdit()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 事项编辑弹窗 ============ -->
+<div class="modal-mask" id="task-modal" onclick="if(event.target===this) closeTaskModal()">
+  <div class="modal">
+    <h2 id="task-modal-t">✎ 编辑事项</h2>
+    <div class="fld"><label>事项</label>
+      <input type="text" id="tk-edit-text" placeholder="想做的事"></div>
+    <div class="fld"><label>重要/紧急象限</label>
+      <select id="tk-edit-quad">
+        <option value="0">未分类</option>
+        <option value="1">① 重要且紧急</option>
+        <option value="2">② 重要不紧急</option>
+        <option value="3">③ 不重要但紧急</option>
+        <option value="4">④ 不重要不紧急</option>
+      </select></div>
+    <div class="fld"><label>追踪状态</label>
+      <select id="tk-edit-status">
+        <option value="plan">📋 计划</option>
+        <option value="doing">🚧 进行中</option>
+        <option value="done">✅ 完成</option>
+        <option value="blocked">⏸ 搁置</option>
+      </select></div>
+    <div class="modal-foot">
+      <button class="bt-ghost" onclick="closeTaskModal()">取消</button>
+      <button class="bt-primary" onclick="saveTaskEdit()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 目标关键词编辑弹窗 ============ -->
+<div class="modal-mask" id="goal-modal" onclick="if(event.target===this) closeGoalModal()">
+  <div class="modal">
+    <h2 id="goal-modal-t">✎ 编辑关键词</h2>
+    <div class="fld"><label>关键词</label>
+      <input type="text" id="gc-edit-text" placeholder="一句话关键词" maxlength="60"></div>
+    <div class="fld"><label>标记为目标点位</label>
+      <label class="gc-filter" style="margin:0;"><input type="checkbox" id="gc-edit-mark"> 🎯 这是我的目标点位</label>
+    </div>
+    <div class="fld"><label>重要程度（五角星，越多越重要）</label>
+      <div class="gc-stars" id="gc-stars-modal"></div>
+    </div>
+    <div class="fld"><label>便利贴颜色</label>
+      <div class="gc-colors" id="gc-colors"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="bt-ghost" onclick="closeGoalModal()">取消</button>
+      <button class="bt-primary" onclick="saveGoalEdit()">保存</button>
     </div>
   </div>
 </div>
@@ -901,6 +1103,8 @@ function switchView(name){
   if(name==='graph') initGraph();
   if(name==='review'){ buildMonthOptions(); renderReview(); }
   if(name==='insights') renderInsights();
+  if(name==='tasks') renderTasks();
+  if(name==='canvas') renderGoals();
 }
 document.querySelectorAll('nav button').forEach(b=> b.onclick = ()=> switchView(b.dataset.view));
 
@@ -1090,7 +1294,7 @@ function esc(s){ const d=document.createElement('div'); d.textContent=s; return 
 
 /* ==================== 导入导出 ==================== */
 function exportData(){
-  const blob = new Blob([JSON.stringify({__v:2, entries:DB, cards:CARDS}, null,2)],{type:'application/json'});
+  const blob = new Blob([JSON.stringify({__v:4, entries:DB, cards:CARDS, tasks:TASKS, goals:GOALS}, null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `撕历备份_${fmt(new Date())}.json`;
@@ -1106,6 +1310,13 @@ function importData(input){
       const isV2 = data && data.__v >= 2 && data.entries;
       DB = mergeDB(DB, isV2 ? data.entries : data).merged; persist();
       if(isV2 && Array.isArray(data.cards)){ CARDS = mergeCards(CARDS, data.cards); persistCards(); renderInsights(); }
+      if(data && data.__v >= 3 && Array.isArray(data.tasks)){
+        TASKS = mergeTasks(TASKS, data.tasks); persistTasks();
+        switchTaskCat(taskCat); switchTaskTab(taskTab);
+      }
+      if(data && data.__v >= 4 && Array.isArray(data.goals)){
+        GOALS = mergeGoals(GOALS, data.goals); persistGoals(); renderGoals();
+      }
       schedulePush();
       renderDay(); toast(`导入成功，共 ${Object.keys(DB).length} 条记录`);
     }catch{ toast('文件格式不正确'); }
@@ -1379,11 +1590,383 @@ function randomReview(){
 document.getElementById('ins-search').addEventListener('input', e=>{ insQ = e.target.value.trim(); renderInsights(); });
 document.getElementById('ins-sort').addEventListener('change', e=>{ insSort = e.target.value; renderInsights(); });
 
+/* ==================== 事项管理（工作/生活 · 清单/象限/看板） ==================== */
+const TASKS_KEY = 'tearoff-tasks';
+let TASKS = [];
+try{ TASKS = JSON.parse(localStorage.getItem(TASKS_KEY) || '[]'); }catch(_){ TASKS = []; }
+let taskCat = 'work', taskTab = 'list', editingTask = null;
+
+function persistTasks(){
+  try{ localStorage.setItem(TASKS_KEY, JSON.stringify(TASKS)); }
+  catch(_){ toast('本地存储空间不足，事项未能保存'); }
+}
+function taskUid(){ return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function liveTasks(){ return TASKS.filter(t=>!t.del); }
+const QUAD_LABEL = {0:'', 1:'① 重要且紧急', 2:'② 重要不紧急', 3:'③ 不重要但紧急', 4:'④ 不重要不紧急'};
+const STATUS_LABEL = {plan:'📋 计划', doing:'🚧 进行中', done:'✅ 完成', blocked:'⏸ 搁置'};
+const STATUS_ORDER = ['plan','doing','done','blocked'];
+function relTime(ts){
+  if(!ts) return '';
+  const d = Date.now() - ts, m = 60000, h = 3600000, day = 86400000;
+  if(d < m) return '刚刚';
+  if(d < h) return Math.floor(d/m)+' 分钟前';
+  if(d < day) return Math.floor(d/h)+' 小时前';
+  if(d < 30*day) return Math.floor(d/day)+' 天前';
+  return fmt(new Date(ts));
+}
+
+/* —— 增删改 —— */
+function addTask(text){
+  const now = Date.now();
+  const t = {
+    id: taskUid(), cat: taskCat, text: text.trim().slice(0,500),
+    status: 'plan', quadrant: 0, order: liveTasks().length,
+    created: now, updated: now, history: [{ts:now, status:'plan'}]
+  };
+  TASKS.unshift(t);
+  return t;
+}
+function addTaskFromInput(){
+  const inp = document.getElementById('tk-input');
+  const v = inp.value.trim();
+  if(!v){ inp.focus(); return; }
+  addTask(v);
+  inp.value = '';
+  persistTasks(); schedulePush();
+  renderTasks();
+  toast('已添加 ✓');
+}
+function toggleTask(id){
+  const t = TASKS.find(x=>x.id===id); if(!t) return;
+  setStatus(id, t.status==='done' ? 'plan' : 'done', true);
+}
+function setStatus(id, s, log){
+  const t = TASKS.find(x=>x.id===id); if(!t) return;
+  if(t.status===s) return;
+  t.status = s; t.updated = Date.now();
+  if(log !== false) (t.history = t.history||[]).push({ts:Date.now(), status:s});
+  persistTasks(); schedulePush(); renderTasks();
+}
+function setQuadrant(id, q){
+  const t = TASKS.find(x=>x.id===id); if(!t) return;
+  t.quadrant = q|0; t.updated = Date.now();
+  persistTasks(); schedulePush(); renderTasks();
+}
+function delTask(id){
+  const t = TASKS.find(x=>x.id===id); if(!t) return;
+  if(!confirm(`删除事项「${t.text}」？\n其他设备同步后也会一并删除。`)) return;
+  const now = Date.now(); t.del = now; t.updated = now;
+  persistTasks(); schedulePush(); renderTasks(); toast('已删除');
+}
+function editTask(id){ openTaskModal(id); }
+function openTaskModal(id){
+  editingTask = id || null;
+  const t = id ? TASKS.find(x=>x.id===id) : null;
+  document.getElementById('task-modal-t').textContent = t ? '✎ 编辑事项' : '＋ 新建事项';
+  document.getElementById('tk-edit-text').value = t?.text || '';
+  document.getElementById('tk-edit-quad').value = String(t?.quadrant||0);
+  document.getElementById('tk-edit-status').value = t?.status || 'plan';
+  document.getElementById('task-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('tk-edit-text').focus(), 80);
+}
+function saveTaskEdit(){
+  const text = document.getElementById('tk-edit-text').value.trim();
+  if(!text){ toast('事项不能为空'); return; }
+  const quad = +document.getElementById('tk-edit-quad').value || 0;
+  const st = document.getElementById('tk-edit-status').value;
+  if(editingTask){
+    const t = TASKS.find(x=>x.id===editingTask); if(!t) return;
+    if(t.status !== st) (t.history = t.history||[]).push({ts:Date.now(), status:st});
+    t.text = text; t.quadrant = quad; t.status = st; t.updated = Date.now();
+  } else {
+    const t = addTask(text);
+    t.quadrant = quad; t.status = st; t.updated = Date.now();
+    (t.history = t.history||[]).push({ts:Date.now(), status:st});
+  }
+  persistTasks(); schedulePush(); renderTasks();
+  document.getElementById('task-modal').classList.remove('show');
+  toast('已保存 ✓');
+}
+function closeTaskModal(){ document.getElementById('task-modal').classList.remove('show'); }
+
+/* —— 分类 / 子页切换 —— */
+function switchTaskTab(t){
+  taskTab = t;
+  document.querySelectorAll('.tk-subtab button').forEach(b=> b.classList.toggle('on', b.dataset.tab===t));
+  document.getElementById('tk-list').style.display   = t==='list'   ? '' : 'none';
+  document.getElementById('tk-matrix').style.display = t==='matrix' ? '' : 'none';
+  document.getElementById('tk-board').style.display  = t==='board'  ? '' : 'none';
+  renderTasks();
+}
+function switchTaskCat(c){
+  taskCat = c;
+  document.getElementById('tk-cat-work').classList.toggle('on', c==='work');
+  document.getElementById('tk-cat-life').classList.toggle('on', c==='life');
+  renderTasks();
+}
+
+/* —— 渲染 —— */
+function renderTasks(){
+  if(taskTab==='list') renderTaskList();
+  else if(taskTab==='matrix') renderTaskMatrix();
+  else renderTaskBoard();
+}
+function catTasks(){ return liveTasks().filter(t=>t.cat===taskCat); }
+function renderTaskList(){
+  const body = document.getElementById('tk-list-body'); if(!body) return;
+  const items = catTasks().slice().sort((a,b)=>
+    (a.status==='done'?1:0)-(b.status==='done'?1:0) || (a.order||0)-(b.order||0) || (a.created||0)-(b.created||0));
+  if(!items.length){
+    body.innerHTML = `<div class="tk-empty">还没有事项 😌<br>在上方输入框加一件想做的事，<br>它会自动进入「待办清单」</div>`;
+    return;
+  }
+  body.innerHTML = items.map(t=>`
+    <div class="tk-item ${t.status==='done'?'done':''}" data-id="${attr(t.id)}">
+      <input type="checkbox" class="tk-check" ${t.status==='done'?'checked':''} onclick="toggleTask('${attr(t.id)}')">
+      <div class="tk-text">${esc(t.text)}</div>
+      ${t.quadrant?`<span class="tk-qbadge">${esc(QUAD_LABEL[t.quadrant]||'')}</span>`:''}
+      <div class="tk-ops">
+        <button title="编辑" onclick="editTask('${attr(t.id)}')">✎</button>
+        <button class="dg" title="删除" onclick="delTask('${attr(t.id)}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function renderTaskMatrix(){
+  const pool = document.getElementById('tk-pool');
+  ['1','2','3','4'].forEach(q=> { const box = document.getElementById('tk-q'+q); if(box) box.innerHTML=''; });
+  const items = catTasks();
+  if(!items.length){
+    if(pool) pool.innerHTML = `<div class="tk-empty" style="padding:30px 0;">还没有事项 😌<br>先去「待办清单」加点事，再来这里盘优先级</div>`;
+    return;
+  }
+  if(pool) pool.innerHTML = items.filter(t=>!t.quadrant).map(chip).join('')
+    || `<div style="color:var(--muted);font-size:.83rem;padding:6px 2px;">都归类好了 👍</div>`;
+  ['1','2','3','4'].forEach(q=>{
+    const box = document.getElementById('tk-q'+q); if(!box) return;
+    box.innerHTML = items.filter(t=>String(t.quadrant)===q).map(chip).join('')
+      || `<div style="color:var(--muted);font-size:.8rem;padding:6px 2px;">— 空 —</div>`;
+  });
+  function chip(t){
+    return `<div class="tk-chip"><div class="tk-ctext">${esc(t.text)}</div>
+      <button title="编辑" onclick="editTask('${attr(t.id)}')">✎</button>
+      <button title="去除象限" onclick="setQuadrant('${attr(t.id)}',0)">✕</button></div>`;
+  }
+}
+function renderTaskBoard(){
+  ['plan','doing','done','blocked'].forEach(s=>{ const b=document.getElementById('tk-c-'+s); if(b) b.innerHTML=''; });
+  const items = catTasks();
+  if(!items.length){
+    const p = document.getElementById('tk-c-plan'); if(p) p.innerHTML = `<div class="tk-empty" style="padding:30px 0;">还没有事项 😌<br>去「待办清单」加点事，<br>再回到这里追踪进度</div>`;
+    return;
+  }
+  ['plan','doing','done','blocked'].forEach(s=>{
+    const box = document.getElementById('tk-c-'+s); if(!box) return;
+    const list = items.filter(t=>t.status===s).sort((a,b)=>(a.order||0)-(b.order||0));
+    box.innerHTML = list.map(t=>`
+      <div class="tk-card" data-id="${attr(t.id)}">
+        <div class="tk-ctext">${esc(t.text)}</div>
+        ${t.quadrant?`<div style="font-size:.66rem;color:var(--accent);margin-top:4px;">${esc(QUAD_LABEL[t.quadrant]||'')}</div>`:''}
+        <div class="tk-meta">
+          <span class="tk-when">${relTime(t.updated)}</span>
+          <button class="tk-move" onclick="moveTask('${attr(t.id)}')">▸ 移至</button>
+        </div>
+      </div>`).join('')
+      || `<div style="color:var(--muted);font-size:.8rem;padding:8px 2px;">— 空 —</div>`;
+  });
+}
+function moveTask(id){
+  const t = TASKS.find(x=>x.id===id); if(!t) return;
+  const i = STATUS_ORDER.indexOf(t.status);
+  setStatus(id, STATUS_ORDER[(i+1)%STATUS_ORDER.length], true);
+}
+
+/* ==================== 目标画布（关键词便利贴） ==================== */
+const CANVAS_KEY = 'tearoff-goals';
+let GOALS = [];
+try{ GOALS = JSON.parse(localStorage.getItem(CANVAS_KEY) || '[]'); }catch(_){ GOALS = []; }
+let gcOnly = false, editingGoal = null, gcEditColor = 0, gcEditImp = 0;
+const GC_COLORS = ['#ffd866','#ffb3a7','#a7e8c9','#a7c8ff','#e3b3ff','#ffe0a3'];
+function persistGoals(){
+  try{ localStorage.setItem(CANVAS_KEY, JSON.stringify(GOALS)); }
+  catch(_){ toast('本地存储空间不足，关键词未能保存'); }
+}
+function goalUid(){ return 'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function liveGoals(){ return GOALS.filter(t=>!t.del); }
+
+/* —— 增删改 —— */
+function addGoal(text, x, y){
+  const now = Date.now();
+  if(x==null){
+    const n = liveGoals().length;
+    x = 16 + (n%6)*22 + Math.round(Math.random()*26);
+    y = 16 + (n%6)*22 + Math.round(Math.random()*26);
+  }
+  const g = { id: goalUid(), text: text.trim().slice(0,60), x: Math.max(0,x|0), y: Math.max(0,y|0),
+              marked:false, color:(Math.random()*GC_COLORS.length)|0, imp:0, created:now, updated:now, del:0 };
+  GOALS.unshift(g);
+  return g;
+}
+function addGoalFromInput(){
+  const inp = document.getElementById('gc-input');
+  const v = inp.value.trim();
+  if(!v){ inp.focus(); return; }
+  addGoal(v);
+  inp.value = '';
+  persistGoals(); schedulePush(); renderGoals();
+  toast('已贴到画布 📌');
+}
+function toggleMark(id){
+  const g = GOALS.find(x=>x.id===id); if(!g) return;
+  g.marked = !g.marked; g.updated = Date.now();
+  persistGoals(); schedulePush(); renderGoals();
+  toast(g.marked ? '已标记为目标点位 🎯' : '已取消标记');
+}
+function setGoalImp(id, k){
+  const g = GOALS.find(x=>x.id===id); if(!g) return;
+  g.imp = (g.imp === k) ? 0 : k;   // 再次点同一颗星可取消
+  g.updated = Date.now();
+  persistGoals(); schedulePush(); renderGoals();
+  toast(g.imp ? `重要度 ${g.imp}/5 ★` : '已清除重要度');
+}
+function setGoalPos(id, x, y){
+  const g = GOALS.find(x=>x.id===id); if(!g) return;
+  g.x = Math.round(x); g.y = Math.round(y); g.updated = Date.now();
+  persistGoals(); schedulePush(); renderGoals();
+}
+function delGoal(id){
+  const g = GOALS.find(x=>x.id===id); if(!g) return;
+  if(!confirm(`删除关键词「${g.text}」？\n其他设备同步后也会一并删除。`)) return;
+  const now = Date.now(); g.del = now; g.updated = now;
+  persistGoals(); schedulePush(); renderGoals(); toast('已删除');
+}
+function editGoal(id){ openGoalModal(id); }
+function openGoalModal(id){
+  editingGoal = id || null;
+  const g = id ? GOALS.find(x=>x.id===id) : null;
+  document.getElementById('goal-modal-t').textContent = g ? '✎ 编辑关键词' : '＋ 新关键词';
+  document.getElementById('gc-edit-text').value = g?.text || '';
+  document.getElementById('gc-edit-mark').checked = g?.marked || false;
+  gcEditColor = (g?.color ?? ((Math.random()*GC_COLORS.length)|0))|0;
+  gcEditImp = g?.imp ?? 0;
+  renderGoalColors();
+  renderGoalStarsModal();
+  document.getElementById('goal-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('gc-edit-text').focus(), 80);
+}
+function renderGoalColors(){
+  const wrap = document.getElementById('gc-colors');
+  if(!wrap) return;
+  wrap.innerHTML = GC_COLORS.map((c,i)=>
+    `<span class="gc-swatch ${i===gcEditColor?'on':''}" style="background:${c}" onclick="gcEditColor=${i};renderGoalColors()"></span>`).join('');
+}
+function renderGoalStarsModal(){
+  const wrap = document.getElementById('gc-stars-modal');
+  if(!wrap) return;
+  let s = '';
+  for(let i=1;i<=5;i++){
+    s += `<button type="button" class="gc-star ${i<=gcEditImp?'on':''}" onclick="gcEditImp=${i};renderGoalStarsModal()">${i<=gcEditImp?'★':'☆'}</button>`;
+  }
+  wrap.innerHTML = s;
+}
+function saveGoalEdit(){
+  const text = document.getElementById('gc-edit-text').value.trim();
+  if(!text){ toast('关键词不能为空'); return; }
+  const marked = document.getElementById('gc-edit-mark').checked;
+  if(editingGoal){
+    const g = GOALS.find(x=>x.id===editingGoal); if(!g) return;
+    g.text = text; g.marked = marked; g.color = gcEditColor; g.imp = gcEditImp; g.updated = Date.now();
+  } else {
+    const ng = addGoal(text); ng.marked = marked; ng.color = gcEditColor; ng.imp = gcEditImp; ng.updated = Date.now();
+  }
+  persistGoals(); schedulePush(); renderGoals();
+  document.getElementById('goal-modal').classList.remove('show');
+  toast('已保存 📌');
+}
+function closeGoalModal(){ document.getElementById('goal-modal').classList.remove('show'); }
+function setGoalFilter(only){ gcOnly = only; renderGoals(); }
+
+/* —— 拖拽 —— */
+let dragState = null;
+function startGoalDrag(e, id){
+  if(e.target.closest('button')) return;
+  const note = e.currentTarget;
+  const canvas = document.getElementById('gc-canvas');
+  const cr = canvas.getBoundingClientRect();
+  dragState = { id, note, cr,
+    offX: e.clientX - note.getBoundingClientRect().left,
+    offY: e.clientY - note.getBoundingClientRect().top };
+  note.classList.add('gc-dragging');
+  try{ note.setPointerCapture(e.pointerId); }catch(_){}
+  window.addEventListener('pointermove', onGoalDrag);
+  window.addEventListener('pointerup', endGoalDrag);
+  e.preventDefault();
+}
+function onGoalDrag(e){
+  if(!dragState) return;
+  let x = e.clientX - dragState.cr.left - dragState.offX;
+  let y = e.clientY - dragState.cr.top - dragState.offY;
+  x = Math.max(0, Math.min(x, dragState.cr.width - dragState.note.offsetWidth));
+  y = Math.max(0, Math.min(y, dragState.cr.height - dragState.note.offsetHeight));
+  dragState.note.style.left = x+'px';
+  dragState.note.style.top = y+'px';
+  dragState.x = x; dragState.y = y;
+}
+function endGoalDrag(){
+  if(!dragState) return;
+  if(dragState.x!=null) setGoalPos(dragState.id, dragState.x, dragState.y);
+  dragState.note.classList.remove('gc-dragging');
+  window.removeEventListener('pointermove', onGoalDrag);
+  window.removeEventListener('pointerup', endGoalDrag);
+  dragState = null;
+}
+
+/* —— 渲染 —— */
+function starRow(g){
+  let s = '';
+  for(let i=1;i<=5;i++){
+    s += `<button class="gc-star ${i<=g.imp?'on':''}" title="重要度 ${i}" onclick="event.stopPropagation();setGoalImp('${attr(g.id)}',${i})">${i<=g.imp?'★':'☆'}</button>`;
+  }
+  return s;
+}
+function renderGoals(){
+  const canvas = document.getElementById('gc-canvas'); if(!canvas) return;
+  const hint = document.getElementById('gc-hint');
+  let items = liveGoals();
+  if(gcOnly) items = items.filter(g=>g.marked);
+  canvas.querySelectorAll('.gc-note').forEach(n=>n.remove());
+  if(!items.length){ if(hint) hint.style.display = 'block'; return; }
+  if(hint) hint.style.display = 'none';
+  items.forEach(g=>{
+    const el = document.createElement('div');
+    el.className = 'gc-note' + (g.marked ? ' gc-marked' : '');
+    el.dataset.id = g.id;
+    el.style.left = g.x+'px'; el.style.top = g.y+'px';
+    el.style.setProperty('--gc-color', GC_COLORS[g.color] || GC_COLORS[0]);
+    el.setAttribute('onpointerdown', `startGoalDrag(event,'${attr(g.id)}')`);
+    el.innerHTML = `
+      <div class="gc-bar">
+        <button class="gc-flag" title="标记为目标点位" onclick="event.stopPropagation();toggleMark('${attr(g.id)}')">${g.marked?'🎯':'📍'}</button>
+        <span class="gc-grip">⠿</span>
+      </div>
+      <div class="gc-text">${esc(g.text)}</div>
+      <div class="gc-foot">
+        <div class="gc-stars">${starRow(g)}</div>
+        <div class="gc-ops">
+          <button title="编辑" onclick="event.stopPropagation();editGoal('${attr(g.id)}')">✎</button>
+          <button class="dg" title="删除" onclick="event.stopPropagation();delGoal('${attr(g.id)}')">🗑</button>
+        </div>
+      </div>`;
+    canvas.appendChild(el);
+  });
+}
+
 /* ==================== 云同步（GitHub Gist） ==================== */
 const CFG_KEY = 'tearoff-sync-cfg';
 let CFG = JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); // {token,gistId,user,lastSync}
 const GIST_MAIN = 'tearoff-data.json';
 const GIST_CARDS = 'tearoff-cards.json';
+const GIST_TASKS = 'tearoff-tasks.json';
+const GIST_GOALS = 'tearoff-goals.json';
 const API = 'https://api.github.com';
 
 function saveCfg(){ localStorage.setItem(CFG_KEY, JSON.stringify(CFG)); refreshSyncBtn(); }
@@ -1419,6 +2002,8 @@ function packData(){
   });
   files[GIST_MAIN] = {content: JSON.stringify({v:1, updated:Date.now(), entries:main, chat: chatHistory}, null, 1)};
   files[GIST_CARDS] = {content: JSON.stringify({v:1, updated:Date.now(), cards:CARDS}, null, 1)};
+  files[GIST_TASKS] = {content: JSON.stringify({v:1, updated:Date.now(), tasks:TASKS}, null, 1)};
+  files[GIST_GOALS] = {content: JSON.stringify({v:1, updated:Date.now(), goals:GOALS}, null, 1)};
   Object.entries(hwByMonth).forEach(([m,obj])=>{
     files[`tearoff-hw-${m}.json`] = {content: JSON.stringify(obj)};
   });
@@ -1435,12 +2020,18 @@ function unpackData(gistFiles){
   }
   const cf = gistFiles[GIST_CARDS];
   if(cf && cf.content){ try{ cards = JSON.parse(cf.content).cards || []; }catch{} }
+  let tasks = [];
+  const tf = gistFiles[GIST_TASKS];
+  if(tf && tf.content){ try{ tasks = JSON.parse(tf.content).tasks || []; }catch{} }
+  let goals = [];
+  const gf = gistFiles[GIST_GOALS];
+  if(gf && gf.content){ try{ goals = JSON.parse(gf.content).goals || []; }catch{} }
   Object.entries(gistFiles).forEach(([name,f])=>{
     if(name.startsWith('tearoff-hw-') && f.content){
       try{ Object.entries(JSON.parse(f.content)).forEach(([k,hw])=>{ if(out[k]) out[k].hw = hw; }); }catch{}
     }
   });
-  return {db: out, chat, cards};
+  return {db: out, chat, cards, tasks, goals};
 }
 /* —— 合并：逐条比对，同日冲突无损保留，绝不静默丢内容 —— */
 function sameContent(a,b){
@@ -1505,6 +2096,36 @@ function mergeCards(local, remote){
     .filter(c => !c.del || (NOW - c.del) < 60*864e5)
     .sort((a,b)=> (b.ts||0)-(a.ts||0));
 }
+/* —— 合并事项：按 id 归并，updated 大者胜；删除用墓碑传播；60 天后清理墓碑 —— */
+function mergeTasks(local, remote){
+  const map = new Map();
+  const put = t=>{
+    if(!t || !t.id) return;
+    const p = map.get(t.id);
+    if(!p){ map.set(t.id, t); return; }
+    const ct = t.updated||t.created||0, pt = p.updated||p.created||0;
+    let win = (ct !== pt) ? (ct > pt ? t : p) : (t.del ? t : (p.del ? p : t));
+    map.set(t.id, win);
+  };
+  (local||[]).forEach(put); (remote||[]).forEach(put);
+  const NOW = Date.now();
+  return [...map.values()].filter(t => !t.del || (NOW - t.del) < 60*864e5);
+}
+/* —— 合并目标关键词：按 id 归并，updated 大者胜；删除用墓碑传播；60 天后清理墓碑 —— */
+function mergeGoals(local, remote){
+  const map = new Map();
+  const put = t=>{
+    if(!t || !t.id) return;
+    const p = map.get(t.id);
+    if(!p){ map.set(t.id, t); return; }
+    const ct = t.updated||t.created||0, pt = p.updated||p.created||0;
+    let win = (ct !== pt) ? (ct > pt ? t : p) : (t.del ? t : (p.del ? p : t));
+    map.set(t.id, win);
+  };
+  (local||[]).forEach(put); (remote||[]).forEach(put);
+  const NOW = Date.now();
+  return [...map.values()].filter(t => !t.del || (NOW - t.del) < 60*864e5);
+}
 
 let syncing = false, pushTimer = null;
 function refreshSyncBtn(state){
@@ -1528,7 +2149,7 @@ async function doPull(silent, inner){
       try{ f.content = await fetch(f.raw_url).then(r=>r.text()); }catch{}
     }
   }
-  const {db: remoteDb, chat: remoteChat, cards: remoteCards} = unpackData(g.files||{});
+  const {db: remoteDb, chat: remoteChat, cards: remoteCards, tasks: remoteTasks, goals: remoteGoals} = unpackData(g.files||{});
   const {merged, added, updated, conflicts} = mergeDB(DB, remoteDb);
   DB = merged; persist();
   // 同步聊天记录：合并云端与本机，变化了就更新本地并刷新对话区
@@ -1542,6 +2163,18 @@ async function doPull(silent, inner){
   if(JSON.stringify(mergedCards) !== JSON.stringify(CARDS)){
     CARDS = mergedCards; persistCards();
     if(document.getElementById('view-insights')?.classList.contains('active')) renderInsights();
+  }
+  // 同步事项
+  const mergedTasks = mergeTasks(TASKS, remoteTasks);
+  if(JSON.stringify(mergedTasks) !== JSON.stringify(TASKS)){
+    TASKS = mergedTasks; persistTasks();
+    if(document.getElementById('view-tasks')?.classList.contains('active')) renderTasks();
+  }
+  // 同步目标关键词
+  const mergedGoals = mergeGoals(GOALS, remoteGoals);
+  if(JSON.stringify(mergedGoals) !== JSON.stringify(GOALS)){
+    GOALS = mergedGoals; persistGoals();
+    if(document.getElementById('view-canvas')?.classList.contains('active')) renderGoals();
   }
   CFG.lastSync = Date.now(); saveCfg();
   if(!inner) renderDay();
@@ -1638,7 +2271,7 @@ function renderSyncPanel(){
   if(!CFG) return;
   document.getElementById('st-user').textContent = CFG.user || '—';
   document.getElementById('st-gist').textContent = CFG.gistId || '—';
-  document.getElementById('st-local').textContent = Object.keys(DB).length + ' 条 · ' + liveCards().length + ' 张卡片';
+  document.getElementById('st-local').textContent = Object.keys(DB).length + ' 条 · ' + liveCards().length + ' 张卡片 · ' + liveTasks().length + ' 个事项 · ' + liveGoals().length + ' 个目标';
   document.getElementById('st-time').textContent = CFG.lastSync
     ? new Date(CFG.lastSync).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '尚未同步';
   const bytes = new Blob([JSON.stringify(DB)]).size;
@@ -1886,6 +2519,8 @@ function delSkill(i){
 renderChat();          // 把上次保存的对话恢复出来（刷新不再丢失）
 renderSkills();
 renderInsights();      // 初始化洞见卡片视图
+switchTaskCat('work'); switchTaskTab('list'); // 初始化事项管理视图
+renderGoals();        // 初始化目标画布视图
 if(AICFG) document.getElementById('ai-model-tag').textContent = AICFG.model;
 refreshSyncBtn();
 if(CFG?.token && CFG?.gistId){
