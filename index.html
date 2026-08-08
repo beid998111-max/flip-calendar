@@ -381,9 +381,11 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 
 /* ======= 事项管理（工作/生活 · 清单/象限/看板） ======= */
 .tk-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px;}
-.tk-cattab{display:flex;gap:4px;background:var(--bg2);border-radius:10px;padding:4px;}
-.tk-cattab button{border:none;background:transparent;color:var(--muted);border-radius:7px;padding:7px 16px;font-size:.88rem;cursor:pointer;font-family:inherit;transition:.2s;}
+.tk-cattab{display:flex;flex-wrap:wrap;gap:3px;background:var(--bg2);border-radius:10px;padding:4px;max-width:100%;overflow-x:auto;}
+.tk-cattab button{border:none;background:transparent;color:var(--muted);border-radius:7px;padding:6px 12px;font-size:.82rem;cursor:pointer;font-family:inherit;transition:.2s;white-space:nowrap;}
 .tk-cattab button.on{background:var(--accent);color:#1a1408;font-weight:600;}
+.tk-date-group{margin-bottom:14px;}
+.tk-date-label{font-size:.78rem;color:var(--muted);margin-bottom:6px;padding-left:2px;display:flex;align-items:center;gap:5px;}
 .tk-subtab{display:flex;gap:4px;background:var(--bg2);border-radius:10px;padding:4px;margin-left:auto;}
 .tk-subtab button{border:none;background:transparent;color:var(--muted);border-radius:7px;padding:7px 14px;font-size:.84rem;cursor:pointer;font-family:inherit;transition:.2s;}
 .tk-subtab button.on{background:var(--accent2);color:#0e1726;font-weight:600;}
@@ -404,6 +406,45 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 .tk-ops button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.82rem;padding:5px 6px;border-radius:6px;}
 .tk-ops button:hover{color:var(--text);background:rgba(255,255,255,.07);}
 .tk-ops button.dg:hover{color:var(--danger);}
+/* 拖拽排序 */
+.tk-handle{cursor:grab;color:var(--muted);font-size:1.05rem;line-height:1;padding:2px 4px;flex-shrink:0;user-select:none;touch-action:none;opacity:.6;transition:.15s;}
+.tk-handle:hover{opacity:1;color:var(--accent);}
+.tk-handle:active{cursor:grabbing;}
+.tk-drag-src{opacity:.35;outline:2px dashed var(--accent);outline-offset:-2px;background:rgba(232,176,75,.08);}
+.tk-dragging{position:fixed!important;z-index:9999!important;pointer-events:none!important;opacity:.93;box-shadow:0 12px 36px rgba(0,0,0,.45);border-color:var(--accent)!important;margin:0!important;padding:inherit!important;border-radius:inherit!important;display:flex!important;align-items:center!important;gap:inherit!important;background:var(--bg2)!important;}
+/* 总清单分类徽章 */
+.tk-catbadge{font-size:.66rem;padding:2px 7px;border-radius:100px;background:rgba(127,90,255,.18);color:var(--accent2);white-space:nowrap;}
+/* 总清单-新建分类下拉框 */
+.tk-add #tk-cat-sel{background:var(--bg2);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:10px 10px;color:var(--text);font-size:.85rem;font-family:inherit;max-width:120px;}
+/* 子事项 */
+.tk-subs{margin-left:36px;margin-top:-4px;margin-bottom:6px;padding:6px 0 2px;border-left:2px solid rgba(232,176,75,.18);padding-left:12px;}
+.tk-subs-empty{padding:4px 0;}
+.tk-sub{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:6px;font-size:.84rem;transition:.15s;}
+.tk-sub:hover{background:rgba(255,255,255,.04);}
+.tk-subcheck{width:15px;height:15px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;}
+.tk-subtext{flex:1;line-height:1.45;word-break:break-word;color:var(--text);}
+.tk-sub .tk-subdel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.72rem;padding:2px 4px;border-radius:4px;opacity:0;transition:.15s;}
+.tk-sub:hover .tk-subdel{opacity:1;}
+.tk-sub .tk-subdel:hover{color:var(--danger);}
+.tk-sub.done{opacity:.55;}
+.tk-sub.done .tk-subtext{text-decoration:line-through;}
+.tk-catbadge-sm{font-size:.6rem;padding:1px 5px;}
+.tk-subadd-row{padding:3px 0;}
+.tk-subinp{width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 9px;color:var(--text);font-size:.82rem;outline:none;font-family:inherit;}
+.tk-subinp:focus{border-color:var(--accent);}
+.tk-subadd-btn{background:none;border:1px dashed rgba(255,255,255,.14);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:.78rem;cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:.15s;}
+.tk-subadd-btn:hover{color:var(--accent);border-color:rgba(232,176,75,.35);}
+/* 象限 chip 拖拽 */
+.tk-chip{cursor:grab;position:relative;}
+.tk-chip-handle{color:var(--muted);font-size:.85rem;opacity:.4;cursor:grab;margin-right:2px;user-select:none;touch-action:none;transition:.15s;}
+.tk-chip:hover .tk-chip-handle{opacity:.8;color:var(--accent);}
+/* 看板 card 拖拽 */
+.tk-card{cursor:grab;position:relative;}
+.tk-card-handle{position:absolute;left:6px;top:6px;color:var(--muted);font-size:.85rem;opacity:.3;cursor:grab;user-select:none;touch-action:none;z-index:1;transition:.15s;}
+.tk-card:hover .tk-card-handle{opacity:.7;color:var(--accent);}
+/* 拖放高亮 */
+.tk-drop-over{outline:2px dashed var(--accent)!important;outline-offset:-2px;background:rgba(232,176,75,.08)!important;}
+.tk-col-drop{outline:2px solid var(--accent2)!important;outline-offset:-2px;background:rgba(127,90,255,.06)!important;}
 /* 四象限 */
 .tk-q{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .tk-qcell{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 13px;min-height:130px;}
@@ -504,6 +545,7 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
   .tk-kanban{grid-template-columns:1fr;}
   .tk-subtab{margin-left:0;width:100%;}
   .tk-top{flex-direction:column;align-items:stretch;}
+  .tk-cattab{justify-content:flex-start;}
   .gc-note{width:150px;}
   .gc-canvas{min-height:64vh;}
 }
@@ -695,8 +737,16 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
   <section class="view" id="view-tasks">
     <div class="tk-top">
       <div class="tk-cattab">
+        <button id="tk-cat-all" onclick="switchTaskCat('all')">📋 总清单</button>
         <button id="tk-cat-work" onclick="switchTaskCat('work')">💼 工作</button>
         <button id="tk-cat-life" onclick="switchTaskCat('life')">🌿 生活</button>
+        <button id="tk-cat-growth" onclick="switchTaskCat('growth')">🌱 成长</button>
+        <button id="tk-cat-health" onclick="switchTaskCat('health')">❤️‍🩹 健康</button>
+        <button id="tk-cat-wealth" onclick="switchTaskCat('wealth')">💰 财富</button>
+        <button id="tk-cat-social" onclick="switchTaskCat('social')">🤝 社交</button>
+        <button id="tk-cat-love" onclick="switchTaskCat('love')">💕 爱</button>
+        <button id="tk-cat-happy" onclick="switchTaskCat('happy')">✨ 幸福体验</button>
+        <button id="tk-cat-meta" onclick="switchTaskCat('meta')">🔬 元课题</button>
       </div>
       <div class="tk-subtab">
         <button data-tab="list" onclick="switchTaskTab('list')">☐ 待办清单</button>
@@ -706,6 +756,7 @@ body.kb-open .rings,body.kb-open .date-nav,body.kb-open .tear-note{display:none;
     </div>
     <div id="tk-list" class="tk-pane">
       <div class="tk-add">
+        <select id="tk-cat-sel" style="display:none;" title="选择分类（总清单下新建时指定）"></select>
         <input id="tk-input" placeholder="加一件想做的事…" onkeydown="if(event.key==='Enter') addTaskFromInput()">
         <button onclick="addTaskFromInput()">添加</button>
       </div>
@@ -1590,10 +1641,17 @@ function randomReview(){
 document.getElementById('ins-search').addEventListener('input', e=>{ insQ = e.target.value.trim(); renderInsights(); });
 document.getElementById('ins-sort').addEventListener('change', e=>{ insSort = e.target.value; renderInsights(); });
 
-/* ==================== 事项管理（工作/生活 · 清单/象限/看板） ==================== */
+/* ==================== 事项管理（9 维度 · 清单/象限/看板 · 按日期分组） ==================== */
 const TASKS_KEY = 'tearoff-tasks';
 let TASKS = [];
 try{ TASKS = JSON.parse(localStorage.getItem(TASKS_KEY) || '[]'); }catch(_){ TASKS = []; }
+const TK_CATS = [
+  {id:'all',label:'📋 总清单'},
+  {id:'work',label:'💼 工作'},{id:'life',label:'🌿 生活'},{id:'growth',label:'🌱 成长'},
+  {id:'health',label:'❤️‍🩹 健康'},{id:'wealth',label:'💰 财富'},{id:'social',label:'🤝 社交'},
+  {id:'love',label:'💕 爱'},{id:'happy',label:'✨ 幸福体验'},{id:'meta',label:'🔬 元课题'}
+];
+function catLabel(id){ const c = TK_CATS.find(x=>x.id===id); return c ? c.label : (id||''); }
 let taskCat = 'work', taskTab = 'list', editingTask = null;
 
 function persistTasks(){
@@ -1618,9 +1676,14 @@ function relTime(ts){
 /* —— 增删改 —— */
 function addTask(text){
   const now = Date.now();
+  // 总清单视图下，取下拉框所选分类；否则用当前分类
+  const cat = (taskCat==='all')
+    ? (document.getElementById('tk-cat-sel')?.value || 'work')
+    : taskCat;
   const t = {
-    id: taskUid(), cat: taskCat, text: text.trim().slice(0,500),
-    status: 'plan', quadrant: 0, order: liveTasks().length,
+    id: taskUid(), cat: cat, text: text.trim().slice(0,500),
+    status: 'plan', quadrant: 0, order: -now,   // 新事项置顶，拖拽后重排为 0..n
+    date: fmt(new Date()),   // 默认当天日期
     created: now, updated: now, history: [{ts:now, status:'plan'}]
   };
   TASKS.unshift(t);
@@ -1700,9 +1763,20 @@ function switchTaskTab(t){
 }
 function switchTaskCat(c){
   taskCat = c;
-  document.getElementById('tk-cat-work').classList.toggle('on', c==='work');
-  document.getElementById('tk-cat-life').classList.toggle('on', c==='life');
+  TK_CATS.forEach(cat => {
+    const btn = document.getElementById('tk-cat-'+cat.id);
+    if(btn) btn.classList.toggle('on', cat.id===c);
+  });
+  // 筛选模式下：总清单显示下拉框选分类新建；其他分类也始终用总清单风格渲染
+  const sel = document.getElementById('tk-cat-sel');
+  if(sel) sel.style.display = (c==='all') ? '' : 'none';
   renderTasks();
+}
+function initTaskCatSel(){
+  const sel = document.getElementById('tk-cat-sel');
+  if(!sel) return;
+  sel.innerHTML = TK_CATS.filter(c=>c.id!=='all')
+    .map(c=>`<option value="${attr(c.id)}">${esc(c.label)}</option>`).join('');
 }
 
 /* —— 渲染 —— */
@@ -1711,25 +1785,167 @@ function renderTasks(){
   else if(taskTab==='matrix') renderTaskMatrix();
   else renderTaskBoard();
 }
-function catTasks(){ return liveTasks().filter(t=>t.cat===taskCat); }
+function catTasks(){ return taskCat==='all' ? liveTasks() : liveTasks().filter(t=>t.cat===taskCat); }
 function renderTaskList(){
   const body = document.getElementById('tk-list-body'); if(!body) return;
   const items = catTasks().slice().sort((a,b)=>
-    (a.status==='done'?1:0)-(b.status==='done'?1:0) || (a.order||0)-(b.order||0) || (a.created||0)-(b.created||0));
+    (a.order||0)-(b.order||0) || (a.created||0)-(b.created||0));
   if(!items.length){
-    body.innerHTML = `<div class="tk-empty">还没有事项 😌<br>在上方输入框加一件想做的事，<br>它会自动进入「待办清单」</div>`;
+    body.innerHTML = `<div class="tk-empty">还没有事项 😌<br>在上方输入框加一件想做的事，<br>它会按日期归到这个维度下</div>`;
     return;
   }
-  body.innerHTML = items.map(t=>`
-    <div class="tk-item ${t.status==='done'?'done':''}" data-id="${attr(t.id)}">
-      <input type="checkbox" class="tk-check" ${t.status==='done'?'checked':''} onclick="toggleTask('${attr(t.id)}')">
-      <div class="tk-text">${esc(t.text)}</div>
-      ${t.quadrant?`<span class="tk-qbadge">${esc(QUAD_LABEL[t.quadrant]||'')}</span>`:''}
-      <div class="tk-ops">
-        <button title="编辑" onclick="editTask('${attr(t.id)}')">✎</button>
-        <button class="dg" title="删除" onclick="delTask('${attr(t.id)}')">🗑</button>
-      </div>
-    </div>`).join('');
+  // 按日期分组
+  const groups = {};
+  items.forEach(t => {
+    const d = t.date || fmt(new Date(t.created||Date.now()));
+    (groups[d] = groups[d] || []).push(t);
+  });
+  let html = '';
+  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(date => {
+    const isToday = date === fmt(new Date());
+    const isYesterday = (() => { const y=new Date(); y.setDate(y.getDate()-1); return date===fmt(y); })();
+    const label = isToday ? '📅 今天' : isYesterday ? '📅 昨天' : '📅 '+date;
+    html += `<div class="tk-date-group" data-date="${attr(date)}"><div class="tk-date-label">${esc(label)} · ${groups[date].length} 项</div>`;
+    html += groups[date].map(t=>{
+      const subs = (t.subs||[]).filter(s=>!s.del);
+      const subHtml = subs.length ? `<div class="tk-subs">${subs.map((s,i)=>`
+        <div class="tk-sub ${s.done?'done':''}" data-pid="${attr(t.id)}" data-sid="${attr(s.id)}">
+          <input type="checkbox" class="tk-subcheck" ${s.done?'checked':''} onclick="toggleSubTask('${attr(t.id)}','${attr(s.id)}')">
+          <span class="tk-subtext">${esc(s.text)}</span>
+          <span class="tk-catbadge tk-catbadge-sm">${esc(catLabel(t.cat))}</span>
+          <button class="tk-subdel" title="删除子事项" onclick="delSubTask('${attr(t.id)}','${attr(s.id)}')">✕</button>
+        </div>`).join('')}
+        <div class="tk-subadd-row">
+          <input class="tk-subinp" placeholder="＋ 添加子项…" data-pid="${attr(t.id)}"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addSubFromInput(this);}">
+        </div>
+      </div>` : `<div class="tk-subs tk-subs-empty">
+        <button class="tk-subadd-btn" onclick="showSubInput('${attr(t.id)}')">＋ 添加子事项</button>
+      </div>`;
+      return `
+      <div class="tk-item ${t.status==='done'?'done':''}" data-id="${attr(t.id)}">
+        <span class="tk-handle" title="拖拽排序" onpointerdown="startTaskDrag(event,'${attr(t.id)}')">⠿</span>
+        <input type="checkbox" class="tk-check" ${t.status==='done'?'checked':''} onclick="toggleTask('${attr(t.id)}')">
+        <div class="tk-text">${esc(t.text)}</div>
+        <span class="tk-catbadge">${esc(catLabel(t.cat))}</span>
+        ${t.quadrant?`<span class="tk-qbadge">${esc(QUAD_LABEL[t.quadrant]||'')}</span>`:''}
+        <div class="tk-ops">
+          <button title="编辑" onclick="editTask('${attr(t.id)}')">✎</button>
+          <button class="dg" title="删除" onclick="delTask('${attr(t.id)}')">🗑</button>
+        </div>
+      </div>${subHtml}`;
+    }).join('');
+    html += '</div>';
+  });
+  body.innerHTML = html;
+}
+
+/* —— 子事项 CRUD —— */
+function subUid(){ return 's'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function addSubTask(pid, text){
+  const t = TASKS.find(x=>x.id===pid); if(!t) return;
+  if(!t.subs) t.subs = [];
+  const s = { id: subUid(), text: text.trim().slice(0, 300), done: false };
+  t.subs.push(s); t.updated = Date.now();
+  persistTasks(); schedulePush();
+}
+function toggleSubTask(pid, sid){
+  const t = TASKS.find(x=>x.id===pid); if(!t || !t.subs) return;
+  const s = t.subs.find(x=>x.id===sid); if(!s) return;
+  s.done = !s.done; t.updated = Date.now();
+  persistTasks(); schedulePush(); renderTasks();
+}
+function delSubTask(pid, sid){
+  const t = TASKS.find(x=>x.id===pid); if(!t || !t.subs) return;
+  const s = t.subs.find(x=>x.id===sid); if(!s) return;
+  s.del = Date.now(); t.updated = Date.now();
+  persistTasks(); schedulePush(); renderTasks();
+}
+function showSubInput(pid){
+  // 把"添加子事项"按钮替换为输入框
+  const row = document.querySelector(`.tk-item[data-id="${attr(pid)}"] + .tk-subs .tk-subadd-btn`)?.closest('.tk-subs');
+  if(row){ row.classList.remove('tk-subs-empty'); row.innerHTML = `
+    <div class="tk-subadd-row">
+      <input class="tk-subinp" placeholder="＋ 添加子项…" data-pid="${attr(pid)}"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();addSubFromInput(this);}">
+    </div>`; setTimeout(()=>row.querySelector('.tk-subinp')?.focus(),50);
+  }
+}
+function addSubFromInput(inp){
+  const v = inp.value.trim(); if(!v){ inp.focus(); return; }
+  const pid = inp.dataset.pid; if(!pid) return;
+  addSubTask(pid, v);
+  renderTasks();
+  toast('子事项已添加 ✓');
+}
+
+/* —— 拖拽排序（指针事件，支持跨日期） —— */
+let tkDrag = null;
+function startTaskDrag(e, id){
+  if(e.button!==undefined && e.button!==0) return;
+  e.preventDefault();
+  const el = document.querySelector(`.tk-item[data-id="${attr(id)}"]`);
+  if(!el) return;
+  const r = el.getBoundingClientRect();
+  tkDrag = { id, el, started:false, sx:e.clientX, sy:e.clientY,
+             offX:e.clientX-r.left, offY:e.clientY-r.top, ghost:null };
+  document.addEventListener('pointermove', onTaskDragMove);
+  document.addEventListener('pointerup', endTaskDrag, {once:true});
+}
+function onTaskDragMove(e){
+  if(!tkDrag) return;
+  if(!tkDrag.started){
+    if(Math.hypot(e.clientX-tkDrag.sx, e.clientY-tkDrag.sy) < 5) return;
+    tkDrag.started = true;
+    const ghost = tkDrag.el.cloneNode(true);
+    ghost.classList.add('tk-dragging');
+    ghost.style.width = tkDrag.el.offsetWidth+'px';
+    ghost.style.left = (e.clientX-tkDrag.offX)+'px';
+    ghost.style.top  = (e.clientY-tkDrag.offY)+'px';
+    document.body.appendChild(ghost);
+    tkDrag.ghost = ghost;
+    tkDrag.el.classList.add('tk-drag-src');
+  }
+  tkDrag.ghost.style.left = (e.clientX-tkDrag.offX)+'px';
+  tkDrag.ghost.style.top  = (e.clientY-tkDrag.offY)+'px';
+  const pt = document.elementFromPoint(e.clientX, e.clientY);
+  const overItem = pt && pt.closest ? pt.closest('.tk-item') : null;
+  const overGroup = overItem
+    ? overItem.closest('.tk-date-group')
+    : (pt && pt.closest ? pt.closest('.tk-date-group') : null);
+  if(!overGroup) return;
+  if(overItem && overItem!==tkDrag.el){
+    const ir = overItem.getBoundingClientRect();
+    const after = (e.clientY - ir.top) > ir.height/2;
+    if(after){ const next = overItem.nextElementSibling;
+      if(next!==tkDrag.el) overGroup.insertBefore(tkDrag.el, next);
+    } else { overGroup.insertBefore(tkDrag.el, overItem); }
+  } else if(!overItem){
+    overGroup.appendChild(tkDrag.el);
+  }
+}
+function endTaskDrag(e){
+  document.removeEventListener('pointermove', onTaskDragMove);
+  const d = tkDrag; tkDrag = null;
+  if(!d || !d.started){ return; }
+  if(d.ghost) d.ghost.remove();
+  const groupEl = d.el.closest('.tk-date-group');
+  const targetDate = groupEl ? groupEl.dataset.date : null;
+  if(targetDate){
+    const t = TASKS.find(x=>x.id===d.id);
+    if(t) t.date = targetDate;            // 跨日期拖拽 → 改写日期
+    tkRenumberAll();                       // 按 DOM 最终顺序重排 order
+    persistTasks(); schedulePush();
+  }
+  renderTasks();
+}
+function tkRenumberAll(){
+  document.querySelectorAll('#tk-list-body .tk-date-group').forEach(g=>{
+    Array.from(g.querySelectorAll('.tk-item')).forEach((x,i)=>{
+      const t = TASKS.find(z=>z.id===x.dataset.id);
+      if(t) t.order = i;
+    });
+  });
 }
 function renderTaskMatrix(){
   const pool = document.getElementById('tk-pool');
@@ -1747,9 +1963,11 @@ function renderTaskMatrix(){
       || `<div style="color:var(--muted);font-size:.8rem;padding:6px 2px;">— 空 —</div>`;
   });
   function chip(t){
-    return `<div class="tk-chip"><div class="tk-ctext">${esc(t.text)}</div>
-      <button title="编辑" onclick="editTask('${attr(t.id)}')">✎</button>
-      <button title="去除象限" onclick="setQuadrant('${attr(t.id)}',0)">✕</button></div>`;
+    return `<div class="tk-chip" data-id="${attr(t.id)}" onpointerdown="startChipDrag(event,'${attr(t.id)}')">
+      <span class="tk-chip-handle" onpointerdown="event.stopPropagation()">⠿</span><div class="tk-ctext">${esc(t.text)}</div>
+      <span class="tk-catbadge">${esc(catLabel(t.cat))}</span>
+      <button title="编辑" onclick="event.stopPropagation();editTask('${attr(t.id)}')">✎</button>
+      <button title="去除象限" onclick="event.stopPropagation();setQuadrant('${attr(t.id)}',0)">✕</button></div>`;
   }
 }
 function renderTaskBoard(){
@@ -1763,12 +1981,14 @@ function renderTaskBoard(){
     const box = document.getElementById('tk-c-'+s); if(!box) return;
     const list = items.filter(t=>t.status===s).sort((a,b)=>(a.order||0)-(b.order||0));
     box.innerHTML = list.map(t=>`
-      <div class="tk-card" data-id="${attr(t.id)}">
+      <div class="tk-card" data-id="${attr(t.id)}" onpointerdown="startCardDrag(event,'${attr(t.id)}')">
+        <span class="tk-card-handle" onpointerdown="event.stopPropagation()">⠿</span>
         <div class="tk-ctext">${esc(t.text)}</div>
+        <span class="tk-catbadge">${esc(catLabel(t.cat))}</span>
         ${t.quadrant?`<div style="font-size:.66rem;color:var(--accent);margin-top:4px;">${esc(QUAD_LABEL[t.quadrant]||'')}</div>`:''}
         <div class="tk-meta">
           <span class="tk-when">${relTime(t.updated)}</span>
-          <button class="tk-move" onclick="moveTask('${attr(t.id)}')">▸ 移至</button>
+          <button class="tk-move" onclick="event.stopPropagation();moveTask('${attr(t.id)}')">▸ 移至</button>
         </div>
       </div>`).join('')
       || `<div style="color:var(--muted);font-size:.8rem;padding:8px 2px;">— 空 —</div>`;
@@ -1778,6 +1998,115 @@ function moveTask(id){
   const t = TASKS.find(x=>x.id===id); if(!t) return;
   const i = STATUS_ORDER.indexOf(t.status);
   setStatus(id, STATUS_ORDER[(i+1)%STATUS_ORDER.length], true);
+}
+
+/* —— 象限拖拽（chip → 象限格 / pool） —— */
+let chipDrag = null;
+function startChipDrag(e, id){
+  if(e.button!==undefined && e.button!==0) return;
+  e.preventDefault();
+  const el = document.querySelector(`.tk-chip[data-id="${attr(id)}"]`);
+  if(!el) return;
+  const r = el.getBoundingClientRect();
+  chipDrag = { id, el, started:false, sx:e.clientX, sy:e.clientY,
+               offX:e.clientX-r.left, offY:e.clientY-r.top, ghost:null };
+  document.addEventListener('pointermove', onChipDragMove);
+  document.addEventListener('pointerup', endChipDrag, {once:true});
+}
+function onChipDragMove(e){
+  if(!chipDrag) return;
+  e.preventDefault();   // 防止文本选择干扰
+  if(!chipDrag.started){
+    if(Math.hypot(e.clientX-chipDrag.sx, e.clientY-chipDrag.sy) < 5) return;
+    chipDrag.started = true;
+    const g = chipDrag.el.cloneNode(true);
+    g.classList.add('tk-dragging');
+    g.style.width = chipDrag.el.offsetWidth+'px';
+    g.style.height = chipDrag.el.offsetHeight+'px';
+    g.style.left = (e.clientX-chipDrag.offX)+'px';
+    g.style.top  = (e.clientY-chipDrag.offY)+'px';
+    document.body.appendChild(g);
+    chipDrag.ghost = g;
+    chipDrag.el.classList.add('tk-drag-src');
+  }
+  chipDrag.ghost.style.left = (e.clientX-chipDrag.offX)+'px';
+  chipDrag.ghost.style.top  = (e.clientY-chipDrag.offY)+'px';
+  // 高亮目标象限
+  document.querySelectorAll('.tk-qcell').forEach(c => c.classList.remove('tk-drop-over'));
+  const pt = document.elementFromPoint(e.clientX, e.clientY);
+  const cell = pt && pt.closest ? pt.closest('.tk-qcell') : null;
+  if(cell) cell.classList.add('tk-drop-over');
+}
+function endChipDrag(e){
+  document.removeEventListener('pointermove', onChipDragMove);
+  const d = chipDrag; chipDrag = null;
+  if(!d || !d.started){ return; }
+  if(d.ghost) d.ghost.remove();
+  document.querySelectorAll('.tk-qcell').forEach(c => c.classList.remove('tk-drop-over'));
+  // 判断落在哪个区域
+  const pt = document.elementFromPoint(e.clientX, e.clientY);
+  const cell = pt && pt.closest ? pt.closest('.tk-qcell') : null;
+  const poolWrap = pt && pt.closest ? pt.closest('#tk-pool-wrap') : null;
+  const t = TASKS.find(x=>x.id===d.id); if(!t) return;
+  if(cell){
+    // 落入某个象限
+    const q = cell.querySelector('[id^="tk-q"]')?.id?.replace('tk-q','');
+    if(q) setQuadrant(d.id, +q);
+  } else if(poolWrap){
+    // 落回待归类池
+    setQuadrant(d.id, 0);
+  }
+}
+
+/* —— 看板拖拽（card → 状态列） —— */
+let cardDrag = null;
+function startCardDrag(e, id){
+  if(e.button!==undefined && e.button!==0) return;
+  e.preventDefault();
+  const el = document.querySelector(`.tk-card[data-id="${attr(id)}"]`);
+  if(!el) return;
+  const r = el.getBoundingClientRect();
+  cardDrag = { id, el, started:false, sx:e.clientX, sy:e.clientY,
+               offX:e.clientX-r.left, offY:e.clientY-r.top, ghost:null };
+  document.addEventListener('pointermove', onCardDragMove);
+  document.addEventListener('pointerup', endCardDrag, {once:true});
+}
+function onCardDragMove(e){
+  if(!cardDrag) return;
+  e.preventDefault();   // 防止文本选择干扰
+  if(!cardDrag.started){
+    if(Math.hypot(e.clientX-cardDrag.sx, e.clientY-cardDrag.sy) < 5) return;
+    cardDrag.started = true;
+    const g = cardDrag.el.cloneNode(true);
+    g.classList.add('tk-dragging');
+    g.style.width = cardDrag.el.offsetWidth+'px';
+    g.style.height = cardDrag.el.offsetHeight+'px';
+    g.style.left = (e.clientX-cardDrag.offX)+'px';
+    g.style.top  = (e.clientY-cardDrag.offY)+'px';
+    document.body.appendChild(g);
+    cardDrag.ghost = g;
+    cardDrag.el.classList.add('tk-drag-src');
+  }
+  cardDrag.ghost.style.left = (e.clientX-cardDrag.offX)+'px';
+  cardDrag.ghost.style.top  = (e.clientY-cardDrag.offY)+'px';
+  // 高亮目标列
+  document.querySelectorAll('.tk-col').forEach(c => c.classList.remove('tk-col-drop'));
+  const pt = document.elementFromPoint(e.clientX, e.clientY);
+  const col = pt && pt.closest ? pt.closest('.tk-col') : null;
+  if(col) col.classList.add('tk-col-drop');
+}
+function endCardDrag(e){
+  document.removeEventListener('pointermove', onCardDragMove);
+  const d = cardDrag; cardDrag = null;
+  if(!d || !d.started){ return; }
+  if(d.ghost) d.ghost.remove();
+  document.querySelectorAll('.tk-col').forEach(c => c.classList.remove('tk-col-drop'));
+  const pt = document.elementFromPoint(e.clientX, e.clientY);
+  const col = pt && pt.closest ? pt.closest('.tk-col') : null;
+  if(col){
+    const st = col.dataset.st;   // plan / doing / done / blocked
+    if(st) setStatus(d.id, st, true);
+  }
 }
 
 /* ==================== 目标画布（关键词便利贴） ==================== */
@@ -2520,6 +2849,7 @@ renderChat();          // 把上次保存的对话恢复出来（刷新不再丢
 renderSkills();
 renderInsights();      // 初始化洞见卡片视图
 switchTaskCat('work'); switchTaskTab('list'); // 初始化事项管理视图
+initTaskCatSel();                           // 初始化总清单-新建分类下拉框
 renderGoals();        // 初始化目标画布视图
 if(AICFG) document.getElementById('ai-model-tag').textContent = AICFG.model;
 refreshSyncBtn();
