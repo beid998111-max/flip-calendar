@@ -52,6 +52,7 @@ nav button:not(.active):hover{color:var(--text);}
 }
 .tools button:hover{color:var(--text);border-color:var(--accent);}
 main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
+main.full-canvas{max-width:none;padding-left:16px;padding-right:16px;}
 .view{display:none;animation:fadeIn .4s ease;}
 .view.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
@@ -488,9 +489,9 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 .gc-add button{border:none;background:var(--accent);color:#1a1408;border-radius:9px;padding:0 20px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
 .gc-filter{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.85rem;cursor:pointer;user-select:none;}
 .gc-filter input{accent-color:var(--accent);}
-.gc-canvas{position:relative;min-height:62vh;border:1px dashed rgba(255,255,255,.14);border-radius:16px;
+.gc-canvas{position:relative;min-height:82vh;max-height:92vh;border:1px dashed rgba(255,255,255,.14);border-radius:16px;
   background:radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0) 0 0/22px 22px;
-  overflow:auto;padding:8px;}
+  overflow:auto;padding:12px 16px;}
 .gc-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--muted);text-align:center;font-size:.92rem;line-height:2;pointer-events:none;padding:0 20px;}
 .gc-note{position:absolute;width:172px;background:var(--gc-color,#ffd866);color:#2a2410;border-radius:12px;padding:11px 12px 10px;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:grab;user-select:none;touch-action:none;}
 .gc-note.gc-dragging{cursor:grabbing;box-shadow:0 12px 28px rgba(0,0,0,.5);transform:scale(1.03);z-index:20;}
@@ -552,7 +553,7 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
   .tk-top{flex-direction:column;align-items:stretch;}
   .tk-cattab{justify-content:flex-start;}
   .gc-note{width:150px;}
-  .gc-canvas{min-height:64vh;}
+  .gc-canvas{min-height:78vh;}
 }
 /* 键盘弹出时压缩卡片，避免输入框被遮挡 */
 body.kb-open .card{height:min(430px,60vh);}
@@ -1156,6 +1157,7 @@ function updateStats(){
 function switchView(name){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active', b.dataset.view===name));
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+name));
+  document.querySelector('main').classList.toggle('full-canvas', name==='canvas'); // 画布视图占满全宽
   if(name==='graph') initGraph();
   if(name==='review'){ buildMonthOptions(); renderReview(); }
   if(name==='insights') renderInsights();
