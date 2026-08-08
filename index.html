@@ -401,7 +401,12 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px;}
 .tk-item.done .tk-text{text-decoration:line-through;}
 .tk-check{width:18px;height:18px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;}
 .tk-text{flex:1;font-size:.92rem;line-height:1.5;word-break:break-word;}
-.tk-qbadge{font-size:.68rem;padding:2px 8px;border-radius:100px;background:rgba(232,176,75,.16);color:var(--accent);white-space:nowrap;}
+.tk-qbadge{font-size:.68rem;padding:2px 8px;border-radius:100px;white-space:nowrap;}
+/* 象限徽章颜色与四象限格子一致 */
+.tk-qbadge-1{background:rgba(224,122,95,.16);color:#e07a5f;}
+.tk-qbadge-2{background:rgba(232,176,75,.16);color:var(--accent);}
+.tk-qbadge-3{background:rgba(127,90,255,.16);color:var(--accent2);}
+.tk-qbadge-4{background:rgba(255,255,255,.08);color:var(--muted);}
 .tk-ops{display:flex;gap:2px;}
 .tk-ops button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.82rem;padding:5px 6px;border-radius:6px;}
 .tk-ops button:hover{color:var(--text);background:rgba(255,255,255,.07);}
@@ -1828,7 +1833,7 @@ function renderTaskList(){
         <input type="checkbox" class="tk-check" ${t.status==='done'?'checked':''} onclick="toggleTask('${attr(t.id)}')">
         <div class="tk-text">${esc(t.text)}</div>
         <span class="tk-catbadge">${esc(catLabel(t.cat))}</span>
-        ${t.quadrant?`<span class="tk-qbadge">${esc(QUAD_LABEL[t.quadrant]||'')}</span>`:''}
+        ${t.quadrant?`<span class="tk-qbadge tk-qbadge-${t.quadrant}">${esc(QUAD_LABEL[t.quadrant]||'')}</span>`:''}
         <div class="tk-ops">
           <button title="编辑" onclick="editTask('${attr(t.id)}')">✎</button>
           <button class="dg" title="删除" onclick="delTask('${attr(t.id)}')">🗑</button>
@@ -1985,7 +1990,7 @@ function renderTaskBoard(){
         <span class="tk-card-handle" onpointerdown="event.stopPropagation()">⠿</span>
         <div class="tk-ctext">${esc(t.text)}</div>
         <span class="tk-catbadge">${esc(catLabel(t.cat))}</span>
-        ${t.quadrant?`<div style="font-size:.66rem;color:var(--accent);margin-top:4px;">${esc(QUAD_LABEL[t.quadrant]||'')}</div>`:''}
+        ${t.quadrant?`<div class="tk-qbadge tk-qbadge-${t.quadrant}" style="margin-top:4px;">${esc(QUAD_LABEL[t.quadrant]||'')}</div>`:''}
         <div class="tk-meta">
           <span class="tk-when">${relTime(t.updated)}</span>
           <button class="tk-move" onclick="event.stopPropagation();moveTask('${attr(t.id)}')">▸ 移至</button>
