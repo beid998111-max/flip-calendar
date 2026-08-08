@@ -1829,7 +1829,7 @@ function renderTaskList(){
       </div>`;
       return `
       <div class="tk-item ${t.status==='done'?'done':''}" data-id="${attr(t.id)}">
-        <span class="tk-handle" title="拖拽排序" onpointerdown="startTaskDrag(event,'${attr(t.id)}')">⠿</span>
+        <span class="tk-handle" title="拖拽排序" onpointerdown="event.stopPropagation();startTaskDrag(event,'${attr(t.id)}')">⠿</span>
         <input type="checkbox" class="tk-check" ${t.status==='done'?'checked':''} onclick="toggleTask('${attr(t.id)}')">
         <div class="tk-text">${esc(t.text)}</div>
         <span class="tk-catbadge">${esc(catLabel(t.cat))}</span>
@@ -1888,7 +1888,8 @@ function addSubFromInput(inp){
 let tkDrag = null;
 function startTaskDrag(e, id){
   if(e.button!==undefined && e.button!==0) return;
-  e.preventDefault();
+  e.preventDefault();   // 阻止默认行为（文本选择等）
+  e.stopPropagation(); // 防止冒泡到父级 .tk-item
   const el = document.querySelector(`.tk-item[data-id="${attr(id)}"]`);
   if(!el) return;
   const r = el.getBoundingClientRect();
@@ -1899,12 +1900,14 @@ function startTaskDrag(e, id){
 }
 function onTaskDragMove(e){
   if(!tkDrag) return;
+  e.preventDefault();   // 拖动中持续阻止默认行为
   if(!tkDrag.started){
     if(Math.hypot(e.clientX-tkDrag.sx, e.clientY-tkDrag.sy) < 5) return;
     tkDrag.started = true;
     const ghost = tkDrag.el.cloneNode(true);
     ghost.classList.add('tk-dragging');
     ghost.style.width = tkDrag.el.offsetWidth+'px';
+    ghost.style.height = tkDrag.el.offsetHeight+'px';
     ghost.style.left = (e.clientX-tkDrag.offX)+'px';
     ghost.style.top  = (e.clientY-tkDrag.offY)+'px';
     document.body.appendChild(ghost);
