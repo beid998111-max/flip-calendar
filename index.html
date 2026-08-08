@@ -1916,7 +1916,10 @@ function onTaskDragMove(e){
   }
   tkDrag.ghost.style.left = (e.clientX-tkDrag.offX)+'px';
   tkDrag.ghost.style.top  = (e.clientY-tkDrag.offY)+'px';
+  // 临时隐藏 ghost，确保 elementFromPoint 穿透到下方真实元素
+  tkDrag.ghost.style.display = 'none';
   const pt = document.elementFromPoint(e.clientX, e.clientY);
+  tkDrag.ghost.style.display = '';
   const overItem = pt && pt.closest ? pt.closest('.tk-item') : null;
   const overGroup = overItem
     ? overItem.closest('.tk-date-group')
@@ -1948,10 +1951,11 @@ function endTaskDrag(e){
   renderTasks();
 }
 function tkRenumberAll(){
+  const now = Date.now();
   document.querySelectorAll('#tk-list-body .tk-date-group').forEach(g=>{
     Array.from(g.querySelectorAll('.tk-item')).forEach((x,i)=>{
       const t = TASKS.find(z=>z.id===x.dataset.id);
-      if(t) t.order = i;
+      if(t){ t.order = i; t.updated = now; }   // 更新 order 同时戳 updated，确保同步时本地胜出
     });
   });
 }
@@ -2039,9 +2043,12 @@ function onChipDragMove(e){
   }
   chipDrag.ghost.style.left = (e.clientX-chipDrag.offX)+'px';
   chipDrag.ghost.style.top  = (e.clientY-chipDrag.offY)+'px';
+  // 临时隐藏 ghost 确保 elementFromPoint 穿透
+  chipDrag.ghost.style.display = 'none';
   // 高亮目标象限
   document.querySelectorAll('.tk-qcell').forEach(c => c.classList.remove('tk-drop-over'));
   const pt = document.elementFromPoint(e.clientX, e.clientY);
+  chipDrag.ghost.style.display = '';
   const cell = pt && pt.closest ? pt.closest('.tk-qcell') : null;
   if(cell) cell.classList.add('tk-drop-over');
 }
@@ -2097,9 +2104,12 @@ function onCardDragMove(e){
   }
   cardDrag.ghost.style.left = (e.clientX-cardDrag.offX)+'px';
   cardDrag.ghost.style.top  = (e.clientY-cardDrag.offY)+'px';
+  // 临时隐藏 ghost 确保 elementFromPoint 穿透
+  cardDrag.ghost.style.display = 'none';
   // 高亮目标列
   document.querySelectorAll('.tk-col').forEach(c => c.classList.remove('tk-col-drop'));
   const pt = document.elementFromPoint(e.clientX, e.clientY);
+  cardDrag.ghost.style.display = '';
   const col = pt && pt.closest ? pt.closest('.tk-col') : null;
   if(col) col.classList.add('tk-col-drop');
 }
